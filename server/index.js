@@ -55,7 +55,7 @@ app.post("/login", async (req, res) => {
     }
 });
 
-
+//Register Logic
 app.post("/register", async (req, res) => {
     try {
         const { email, password, phone, fname, lname, role } = req.body;
@@ -92,7 +92,63 @@ app.post("/register", async (req, res) => {
     }
 });
 
+// app.post("/resetver", async (req, res) => {
+//     try {
+//         const { email, phone, fname, lname } = req.body;
+//         if ((email || phone) && fname && lname) {
+//             const user = await pool.query(`SELECT * FROM users WHERE (email = $1 OR phone = $2) AND fname = $3 AND lname = $4`, [email, phone, fname, lname]);
+//             if (user.rows.length === 0) {
+//                 res.status(401).send("User not found\nPlease try again");
+//                 return;
+//             }
+//             const user1 = await pool.query(
+//                 "UPDATE users SET password = $1 WHERE (email = $2 OR phone = $3) RETURNING *",
+//                 [hashedPassword, email, phone],
+//                 (error, results) => {
+//                     if (error) {
+//                         console.log(error.message);
+//                         return res.status(500).json({ error: 'Failed to update user' });
+//                     }
+//                     res.status(200).send(`Password of User ${results.rows[0].fname} updated!`);
+//                 }
+//             );
+//         }
+//     } catch (error) {
+//         console.log(error.message);
+//         return res.status(500).json({ error: 'Internal server error' });
+//     }   
+// });
 
+//Password Reset Logic
+app.put("/reset", async (req, res) => {
+    try {
+        const { email, password, phone} = req.body;
+        if ((email || phone) && password) {
+            const user = await pool.query(`SELECT * FROM users WHERE (email = $1 OR phone = $2)`, [email, phone]);
+            if (user.rows.length === 0) {
+                res.status(401).send("User not found\nPlease try again");
+                return;
+            }
+            bcrypt.genSalt(saltRounds, function (_err, salt) {
+                bcrypt.hash(password, salt, function (_err, hash) {
+                    const hashedPassword = hash;
+                    pool.query(
+                        "UPDATE users SET password = $1 WHERE (email = $2 OR phone = $3) RETURNING *",
+                        [hashedPassword, email, phone],
+                        (error, results) => {
+                            if (error) {
+                                console.log(error.message);
+                                return res.status(500).json({ error: 'Failed to update user' });
+                            }
+                            res.status(200).send(`Password of User ${results.rows[0].fname} updated!`);
+                        }
+                    );
+                });
+        ;})}} catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ error: 'Internal server error' });
+    };
+})
 
 app.listen(5000, () => {
     console.log("Server has started on port 5000");
