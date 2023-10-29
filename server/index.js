@@ -45,6 +45,7 @@ app.post("/login", async (req, res) => {
                 let lastlog = date.toISO();
                 pool.query(`UPDATE users SET lastlogin = $1 WHERE ${userColumn} = $2`, [lastlog, userIdentifier]);
                 res.status(200).send("You've logged in!");
+                console.log(`User ${dbUser.fname} ${dbUser.lname} logged in at ${lastlog}`);
             } else {
                 res.status(401).send("Incorrect password");
             }
@@ -65,8 +66,10 @@ app.post("/register", async (req, res) => {
         if ((email || phone) && password) {
             if (!email) email = null;
             if (!phone) phone = null;
-            if (!role) role = "farmer";
-
+            const tuser = await pool.query(`SELECT * FROM users WHERE (email = $1 OR phone = $2)`, [email, phone]);
+            if (tuser.rows.length > 0) {
+                return res.status(400).json({ error: 'User already exists' });
+            }
             bcrypt.genSalt(saltRounds, function (_err, salt) {
                 bcrypt.hash(password, salt, function (_err, hash) {
                     const hashedPassword = hash;
@@ -76,6 +79,7 @@ app.post("/register", async (req, res) => {
                         (error, results) => {
                             if (error) {
                                 console.log(error.message);
+                                console.log("Internal Server Error");
                                 return res.status(500).json({ error: 'Failed to add user' });
                             }
                             res.status(201).send(`User added with ID: ${results.rows[0].uid}`);
@@ -88,36 +92,10 @@ app.post("/register", async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
+        console.log("Internal Server Error");
         return res.status(500).json({ error: 'Internal server error' });
     }
 });
-
-// app.post("/resetver", async (req, res) => {
-//     try {
-//         const { email, phone, fname, lname } = req.body;
-//         if ((email || phone) && fname && lname) {
-//             const user = await pool.query(`SELECT * FROM users WHERE (email = $1 OR phone = $2) AND fname = $3 AND lname = $4`, [email, phone, fname, lname]);
-//             if (user.rows.length === 0) {
-//                 res.status(401).send("User not found\nPlease try again");
-//                 return;
-//             }
-//             const user1 = await pool.query(
-//                 "UPDATE users SET password = $1 WHERE (email = $2 OR phone = $3) RETURNING *",
-//                 [hashedPassword, email, phone],
-//                 (error, results) => {
-//                     if (error) {
-//                         console.log(error.message);
-//                         return res.status(500).json({ error: 'Failed to update user' });
-//                     }
-//                     res.status(200).send(`Password of User ${results.rows[0].fname} updated!`);
-//                 }
-//             );
-//         }
-//     } catch (error) {
-//         console.log(error.message);
-//         return res.status(500).json({ error: 'Internal server error' });
-//     }   
-// });
 
 //Password Reset Logic
 app.put("/reset", async (req, res) => {
