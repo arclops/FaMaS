@@ -4,124 +4,96 @@ const cors = require("cors");
 const pool = require("./db");
 const fs = require("fs");
 const bcrypt = require("bcrypt");
-
-// //Create Hashed
-// const bcrypt = require('bcrypt');
-// const saltRounds = 10;
-// const plainPassword = 'myPassword123';
-
-// bcrypt.genSalt(saltRounds, function(err, salt) {
-//   bcrypt.hash(plainPassword, salt, function(err, hash) {
-//     // Store the hash in your database or use it as needed
-//     console.log('Hashed Password:', hash);
-//   });
-// });
-
-// //Check Hashed
-// const plainPassword = 'myPassword123';
-// const hashedPassword = '$2a$10$...'; // Retrieved from your database
-
-// bcrypt.compare(plainPassword, hashedPassword, function(err, result) {
-//   if (result) {
-//     // Passwords match
-//     console.log('Passwords match');
-//   } else {
-//     // Passwords do not match
-//     console.log('Passwords do not match');
-//   }
-// });
+const saltRounds = 10;
+const { DateTime } = require('luxon');
 
 //middleware
 app.use(cors());
 app.use(express.json());
 
 //Registration Routes
-app.get("/login", (req, res) => {
-    try{
-        const {email,password,phone} = req.body;
-        if (email && password) {
-            pool.query('SELECT * FROM users WHERE email = $1', [email], (error, results) => {
-                if (results.rows.length > 0) {
-                    const user = results.rows[0];
-                    bcrypt.compare(password, user.password, function(err, result) {
-                        if (result) {
-                            res.json(user);
-                        }
-                        else {
-                            res.status(401).send('Incorrect password');
-                        }
-                    })
-                } else {
-                    res.status(401).send('User not found, check entered email');
-                }
-            });
-        }
-        if (phone && password) {
-            pool.query('SELECT * FROM users WHERE phone = $1', [phone], (error, results) => {
-                if (results.rows.length > 0) {
-                    const user = results.rows[0];
-                    bcrypt.compare(password, user.password, function(err, result) {
-                        if (result) {
-                            res.json(user);
-                        }
-                        else {
-                            res.status(401).send('Incorrect password');
-                        }
-                    })
-                } else {
-                    res.status(401).send('User not found, check entered phone');
-                }
-            })
-        }
-    } catch (error) {
-        console.log(error.message);
-    }
-})
 
-app.post("/register", async (req, res) => {
+//Login Logic
+app.post("/login", async (req, res) => {
     try {
         const { email, password, phone } = req.body;
+        let userColumn, userIdentifier;
+
         if (email && password) {
-            if(!phone) phone = null;
-            bcrypt.genSalt(10, function(err, salt) {
-                bcrypt.hash(password, salt, function(err, hash) {
-                    const hashedPassword = hash;
-                    pool.query(
-                        "INSERT INTO users (email, password,phone ) VALUES ($1, $2) RETURNING *",
-                        [email, hashedPassword, phone],
-                        (error, results) => {
-                            if (error) {
-                                throw error;
-                            }
-                            res.status(201).send(`User added with ID: ${results.rows[0].id}`);
-                        }
-                    );
-                });
-              });
+            userColumn = "email";
+            userIdentifier = email;
+        } else if (phone && password) {
+            userColumn = "phone";
+            userIdentifier = phone;
+        } else {
+            res.status(400).send("Invalid request data");
+            return;
         }
-        if (phone && password) {
-            if(!email) email = null;
-            bcrypt.genSalt(saltRounds, function(err, salt) {
-                bcrypt.hash(plainPassword, salt, function(err, hash) {
-                    const hashedPassword = hash;
-                    pool.query(
-                        "INSERT INTO users (phone, password, email) VALUES ($1, $2) RETURNING *",
-                        [phone, hashedPassword, email],
-                        (error, results) => {
-                            if (error) {
-                                throw error;
-                            }
-                            res.status(201).send(`User added with ID: ${results.rows[0].id}`);
-                        }
-                    );
-                });
-              });
+
+        const user = await pool.query(`SELECT * FROM users WHERE ${userColumn} = $1`, [userIdentifier]);
+
+        if (user.rows.length === 0) {
+            res.status(401).send("User not found");
+            return;
         }
+
+        const dbUser = user.rows[0];
+
+        bcrypt.compare(password, dbUser.password, (err, result) => {
+            if (result) {
+                const date = DateTime.now().setZone('Asia/Kolkata');
+                let lastlog = date.toISO();
+                pool.query(`UPDATE users SET lastlogin = $1 WHERE ${userColumn} = $2`, [lastlog, userIdentifier]);
+                res.status(200).send("You've logged in!");
+            } else {
+                res.status(401).send("Incorrect password");
+            }
+        });
     } catch (error) {
         console.log(error.message);
+        res.status(500).send("Internal Server Error");
     }
 });
 
+
+app.post("/register", async (req, res) => {
+    try {
+        const { email, password, phone, fname, lname, role } = req.body;
+        const date = DateTime.now().setZone('Asia/Kolkata');
+        const regdate = date.toISO();
+
+        if ((email || phone) && password) {
+            if (!email) email = null;
+            if (!phone) phone = null;
+            if (!role) role = "farmer";
+
+            bcrypt.genSalt(saltRounds, function (_err, salt) {
+                bcrypt.hash(password, salt, function (_err, hash) {
+                    const hashedPassword = hash;
+                    pool.query(
+                        "INSERT INTO users (email, password, phone, fname, lname, role, regdate) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+                        [email, hashedPassword, phone, fname, lname, role, regdate],
+                        (error, results) => {
+                            if (error) {
+                                console.log(error.message);
+                                return res.status(500).json({ error: 'Failed to add user' });
+                            }
+                            res.status(201).send(`User added with ID: ${results.rows[0].uid}`);
+                        }
+                    );
+                });
+            });
+        } else {
+            return res.status(400).json({ error: 'Invalid request' });
+        }
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+
 app.listen(5000, () => {
-    console.log("server has started on port 5000");
+    console.log("Server has started on port 5000");
 })

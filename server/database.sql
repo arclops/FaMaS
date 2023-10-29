@@ -1,21 +1,26 @@
-CREATE DATABASE FAMAS;
-USE FAMAS;
+-- To be run in query tool of pgAdmin
+CREATE DATABASE FaMaS;
+USE FaMaS;
+ALTER DATABASE postgres SET timezone TO 'Asia/Kolkata';
 
 -- Create user table in psql or pgAdmin
 
-create table user (
-    uid int not null auto_increment,
-    fname varchar(15) not null,
-    lname varchar(15) not null,
-    email varchar(50),
-    password varchar(64) not null,
-    hashedpassword varchar(128) not null,
-    phone int(15),
-    role varchar(10) not null check (role in ('admin', 'farmer', 'customer')),
-    regdate datetime not null,
-    lastlogin datetime,
-    primary key (uid),
-    unique (email),
-    unique (phone),
-    CONSTRAINT email_or_phone CHECK ((email IS NOT NULL AND phone IS NULL) OR (email IS NULL AND phone IS NOT NULL)) OR (email is NOT NULL AND phone IS NOT NULL)
-)
+-- To restart uid from 1, use the following command
+-- ALTER SEQUENCE users_uid_seq RESTART WITH 1;
+
+CREATE TABLE users (
+    uid SERIAL PRIMARY KEY,
+    fname VARCHAR(15) NOT NULL,
+    lname VARCHAR(15) NOT NULL,
+    email VARCHAR(50) UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    phone BIGINT UNIQUE,
+    role VARCHAR(10) NOT NULL CHECK (role IN ('admin', 'farmer', 'customer')),
+    regdate TIMESTAMP NOT NULL,
+    lastlogin TIMESTAMP,
+    CONSTRAINT email_or_phone CHECK (
+        (email IS NOT NULL AND phone IS NULL) OR
+        (email IS NULL AND phone IS NOT NULL) OR
+        (email IS NOT NULL AND phone IS NOT NULL)
+    )
+);
