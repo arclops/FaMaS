@@ -24,3 +24,9 @@ CREATE TABLE users (
         (email IS NOT NULL AND phone IS NOT NULL)
     )
 );
+
+create table serverlogs (
+	logid serial primary key,
+	logs varchar(250) not null,
+	datetime timestamp not null
+);
