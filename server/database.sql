@@ -11,7 +11,7 @@ ALTER DATABASE postgres SET timezone TO 'Asia/Kolkata';
 -- Farmer Dashboard tables
 
 CREATE TABLE farmers (
-    fid SERIAL PRIMARY KEY,
+    fid uuid PRIMARY KEY references users(uid) on update cascade on delete cascade,
     fname VARCHAR(255) NOT NULL,
     lname VARCHAR(255) NOT NULL,
     gender CHAR(1) CHECK (gender IN ('M', 'F', 'O')),
@@ -24,10 +24,19 @@ CREATE TABLE farmers (
     status VARCHAR(10) NOT NULL CHECK (status IN ('active', 'inactive', 'banned')),
 );
 
+CREATE TABLE farm (
+    fid uuid PRIMARY KEY references farmers(fid) on update cascade on delete cascade,
+    farmsize INT NOT NULL,
+    farmname VARCHAR(255) NOT NULL,
+    address TEXT,
+    status VARCHAR(10) NOT NULL CHECK (status IN ('active', 'inactive')),
+    product VARCHAR(255) NOT NULL
+)
+
 -- Admin Dashboard tables
 
 CREATE TABLE users (
-    uid SERIAL PRIMARY KEY,
+    uid uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     fname VARCHAR(15) NOT NULL,
     lname VARCHAR(15) NOT NULL,
     email VARCHAR(50) UNIQUE,

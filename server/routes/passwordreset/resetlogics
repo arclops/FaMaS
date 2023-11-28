@@ -1,0 +1,92 @@
+const router = require("express").Router();
+const pool = require("../../db");
+const bcrypt = require("bcrypt");
+const { DateTime } = require('luxon');
+const { serverlogger } = require('../../utils/serverlogger.js');
+
+const saltRounds = 10;
+// Contact validity checks
+function isEmail(value) {
+    // A simple check to determine if a string resembles an email
+    return /.+@.+\..+/.test(value);
+}
+
+function isPhone(value) {
+    // A simple check to determine if a string is a phone number
+    return /^\d{10,}$/.test(value);
+}
+
+// User exists logic for forgot password
+router.get("/userexists/:data", async (req, res) => {
+    try {
+        console.log(`Password reset request initiated for ${req.params.data} at time ${DateTime.now().setZone('Asia/Kolkata').toISO()}`);
+        await serverlogger(`Password reset request initiated for ${req.params.data}`, DateTime.now().setZone('Asia/Kolkata').toISO());
+        let data = req.params.data;
+
+        if (isEmail(data)) {
+            // It's an email
+            // console.log(`Email: ${data}`);
+            let user = await pool.query(`SELECT * FROM users WHERE email = $1`, [data]);
+            if (user.rows.length > 0) {
+                res.status(200).send(user.rows[0]);
+            } else {
+                res.status(404).send("User not found");
+            }
+        } else if (isPhone(data)) {
+            // It's a phone number
+            // console.log(`Phone number: ${data}`);
+            let user = await pool.query(`SELECT * FROM users WHERE phone = $1`, [data]);
+            if (user.rows.length > 0) {
+                res.status(200).send(user.rows[0]);
+            } else {
+                res.status(404).send("User not found");
+            }
+        } else {
+            res.status(400).send("Invalid data");
+        }
+    } catch (error) {
+        console.error(error);
+        if (error.message === '') {
+            return res.status(500).json({ error: `PostGRESQL server isn't running!`, details: error.message });
+        }
+        res.status(500).json({error: "Internal Server Error", message: error.message});
+    }
+});
+
+
+//Password Reset Logic
+router.put("/reset", async (req, res) => {
+    try {
+        const { uid, password} = req.body;
+        if (uid && password) {
+            const user = await pool.query(`SELECT * FROM users WHERE uid = $1`, [uid]);
+            if (user.rows.length === 0) {
+                res.status(401).send("User not found\nPlease try again");
+                return;
+            }
+            bcrypt.genSalt(saltRounds, function (_err, salt) {
+                bcrypt.hash(password, salt, function (_err, hash) {
+                    const hashedPassword = hash;
+                    pool.query(
+                        "UPDATE users SET password = $1 WHERE uid = $2 RETURNING *",
+                        [hashedPassword, uid],
+                        (error, results) => {
+                            if (error) {
+                                console.log(error.message);
+                                return res.status(500).json({ error: 'Failed to update user' });
+                            }
+                            res.status(200).send(`Password of User ${results.rows[0].fname} updated!`);
+                            serverlogger(`Password of User ${results.rows[0].fname} updated`,DateTime.now().setZone('Asia/Kolkata').toISO());
+                        }
+                    );
+                });
+        ;})}} catch (error) {
+        console.log(error.message);
+        if (error.message === '') {
+            return res.status(500).json({ error: `PostGRESQL server isn't running!`, details: error.message });
+        }
+        return res.status(500).json({ error: 'Internal server error' });
+    };
+});
+
+module.exports = router;
