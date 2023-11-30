@@ -14,37 +14,32 @@ const servicesData = [
     id: 1,
     icon: 'fas fa-clone',
     title: 'Responsive Design',
-    description: 'Ensure that the Farmers Management System is accessible and user-friendly across various devices, providing a seamless experience for farmers and administrators alike.',
-  },
+    description: "From smartphones to desktops, FaMaS boasts a responsive design that adapts flawlessly. It's built to ensure a smooth and intuitive experience, regardless of the device you're using.",},
   {
     id: 2,
     icon: 'fas fa-snowflake',
     title: 'Creative Design',
-    description: 'Craft visually appealing and innovative designs for the Farmers Management System, enhancing its aesthetic appeal and user engagement.',
-  },
+    description: "Modeled with the trendiest designs in mind, our platform appeals to the eyes of all users. With its intuitive design, FaMaS ensures a cohesive and engaging user experience. "},
   {
     id: 3,
     icon: 'fas fa-plug',
     title: 'SEO Optimized',
-    description: 'Optimize the Farmers Management System for search engines, improving visibility and ensuring that relevant information is easily discoverable by users.',
-  },
+    description: "FaMaS is meticulously optimized for Search Engines. With enhanced visbility, our platform ensures easy accessibility, making vital information readily discoverable to all users alike"},
   {
     id: 4,
     icon: 'fas fa-desktop',
     title: 'Retina Ready',
-    description: 'Deliver high-resolution graphics and visuals to ensure a crisp and clear display on devices with Retina screens, providing an enhanced viewing experience.',
-  },
+    description: "We're tailored for high-resolution Retina displays, ensuring sharp visuals and clear details for an enhanced viewing experience. Every element is optimized, presenting vivid imagery with precision and clarity."},
   {
     id: 5,
     icon: 'fas fa-trophy',
     title: 'Browser Compatibility',
-    description: 'Guarantee that the Farmers Management System is compatible with various web browsers, ensuring consistent performance and functionality for all users.',
-  },
+    description: "FaMaS guarantees compatibility across various web browsers, ensuring a consistent and smooth user experience for all users."},
   {
     id: 6,
     icon: 'fas fa-life-ring',
     title: 'Customer Support',
-    description: 'Provide dedicated customer support for farmers and administrators using the Farmers Management System, offering assistance and resolving queries promptly.',
+    description: 'We provide 24/7 customer support to ensure a smooth and efficient user experience. Our team of experts is ready to assist you with any queries or concerns you may have.',
   },
 ];
 
