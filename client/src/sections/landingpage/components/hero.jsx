@@ -1,5 +1,5 @@
-import { Carousel } from 'react-bootstrap';
-// import { Carousel } from "nuka-carousel"
+// import { Carousel } from 'react-bootstrap';
+import Carousel from "nuka-carousel"
 
 import LoadingButton from '@mui/lab/LoadingButton';
 
@@ -34,30 +34,39 @@ function AppHero() {
 
   return (
     <section id="home" className="hero-block" height="80%" style={{ marginTop: '80px' }}>
-      <Carousel height="80%" interval={5000} pause="hover">
-        {
-          heroData.map(hero => (
-            <Carousel.Item key={hero.id} >
-              <img src={hero.image} width="100%" height="80%"
-                alt={`slide ${hero.id}`} style={{ objectFit: 'cover', width: '100%', height: '93.5vh' }}
-              />
-              <Carousel.Caption>
-                <h2>{hero.title}</h2>
-                <p>{hero.description}</p>
-                <LoadingButton
-                  size="large"
-                  type="submit"
-                  variant="outlined"
-                  color="inherit"
-                  onClick={handleClick}
-                  sx={{ mt: 2, width: '20%', '&.MuiButton-contained': { backgroundColor: 'green' } }} // Dynamically set variant style
-                >
-                  Get Started
-                </LoadingButton>
-              </Carousel.Caption>
-            </Carousel.Item>
-          ))
-        }
+      <Carousel dragging autoplay autoplayInterval={5000} wrapAround pauseOnHover>
+        {heroData.map((hero) => (
+          <div key={hero.id} style={{ position: 'relative', height: '92.5vh' }}>
+            <img
+              src={hero.image}
+              alt={`slide ${hero.id}`}
+              style={{ objectFit: 'cover', width: '100%', height: '100%', filter: 'brightness(70%)' }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                textAlign: 'center',
+                color: 'white',
+              }}
+            >
+              <h2>{hero.title}</h2>
+              <p>{hero.description}</p>
+              <LoadingButton
+                size="large"
+                type="submit"
+                variant="outlined"
+                color="inherit"
+                onClick={handleClick}
+                style={{ width: '30%', p: '20px' }}
+              >
+                Get Started
+              </LoadingButton>
+            </div>
+          </div>
+        ))}
       </Carousel>
     </section>
   );
