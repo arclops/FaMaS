@@ -106,8 +106,8 @@ export default function Router() {
         </FarmerDBLayout>
       ),
       children: [
-        { path: 'dashboard', element: (role === 'farmer' && isAuthenticated )? <IndexPage /> : unauth('farmer'), index: true },
-        { path: 'dashboard/products', element: (role === 'farmer' && isAuthenticated ) ? <ProductsPage /> : <Navigate to="/unauthorized" /> },
+        { path: 'dashboard', element: (role === 'farmer' && isAuthenticated && refresher )? <IndexPage /> : unauth('farmer'), index: true },
+        { path: 'dashboard/products', element: (role === 'farmer' && isAuthenticated && refresher ) ? <ProductsPage /> : <Navigate to="/unauthorized" /> },
       ],
     },
     { path: 'marketplace', element: <ProductsPage /> },
