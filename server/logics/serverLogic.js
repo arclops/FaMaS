@@ -27,6 +27,7 @@ const startServer = () => {
   app.use('/api/forgot', require('../routes/passwordreset/resetlogics')); // Reset Route
   app.use('/api/admin', require('../routes/admindb/farmermanagement')); // Admin Route
   app.use('/api/admin/getdets', require('../routes/admindb/adminacc')); // Admin Details Route
+  app.use('/api/homepage', require('../routes/homepage/landing')); // Home Page Route
     // Start Server
   app.listen(5000, () => {
     serverlogger('Server started on port 5000', DateTime.now().setZone('Asia/Kolkata').toISO());

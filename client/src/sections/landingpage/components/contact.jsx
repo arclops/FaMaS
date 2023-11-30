@@ -10,7 +10,33 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { List, ListItem, Typography, ListItemIcon, ListItemText } from '@mui/material';
 
+import { Consuccess } from '../modals/success';
+
 function AppContact() {
+  const [contact, setContact] = React.useState(false);
+  const submit = async (event) => {
+    event.preventDefault();
+    const formData = {
+      fname: event.target.firstName.value,
+      lname: event.target.lastName.value,
+      email: event.target.email.value,
+      phone: event.target.phone.value,
+      message: event.target.message.value
+    };
+    event.target.reset();
+    setContact(true);
+    try {
+      await fetch('http://localhost:5000/api/homepage/contact', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+    } catch (error) {
+      console.error('Submission error:', error);
+    }
+  }
   return (
     <section id="contact" className="block contact-block">
       <Container fluid>
@@ -20,33 +46,33 @@ function AppContact() {
         </div>
         <Row>
           <Col sm={6}>
-            <Form className='contact-form'>
+            <Form className='contact-form' onSubmit={(e)=>submit(e)}>
               <Row>
                 <Col sm={6}>
-                  <Form.Control type="text" placeholder="First Name" required />
+                  <Form.Control type="text" name="firstName" placeholder="First Name" required />
                 </Col>
                 <Col sm={6}>
-                  <Form.Control type="text" placeholder="Last Name" required />
+                  <Form.Control type="text" name="lastName" placeholder="Last Name" required />
                 </Col>
               </Row>
               <Row>
                 <Col sm={12}>
-                  <Form.Control type="email" placeholder="Email address" required />
+                  <Form.Control type="email" name="email" placeholder="Email address" required />
                 </Col>
               </Row>
               <Row>
                 <Col sm={12}>
-                  <Form.Control type="tel" placeholder="Contact Number" required />
+                  <Form.Control type="tel" name="phone" placeholder="Contact Number" required />
                 </Col>
               </Row>
               <Row>
                 <Col sm={12}>
-                  <Form.Control as="textarea" placeholder="Leave a message for us" required />
+                  <Form.Control as="textarea" name="message" placeholder="Leave a message for us" required />
                 </Col>
               </Row>
               <Row>
                 <Col sm={12} className='btn-holder'>
-                  <Button type="submit">Submit</Button>
+                  <Button type="submit" >Submit</Button>
                 </Col>
               </Row>
             </Form>
@@ -94,6 +120,7 @@ function AppContact() {
           </Col>
         </Row>
       </Container>
+      <Consuccess openS={contact} handleCloseS={() => setContact(false)} />
     </section>
   );
 }

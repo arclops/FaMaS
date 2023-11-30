@@ -1,7 +1,7 @@
 -- To be run in query tool of pgAdmin
-CREATE DATABASE FaMaS;
-USE FaMaS;
-ALTER DATABASE postgres SET timezone TO 'Asia/Kolkata';
+-- CREATE DATABASE FaMaS;
+-- USE FaMaS;
+ALTER DATABASE FaMaS SET timezone TO 'Asia/Kolkata';
 
 -- Create user table in psql or pgAdmin
 
@@ -58,3 +58,18 @@ create table serverlogs (
 	datetime timestamp not null
 );
 
+--- Homepage table
+
+create table contactus (
+    prospectid uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    fname varchar(30) not null,
+    lname varchar(50) not null,
+    email varchar(100),
+    phone varchar(15),
+    message text not null
+    CONSTRAINT email_or_phone CHECK (
+        (email IS NOT NULL AND phone IS NULL) OR
+        (email IS NULL AND phone IS NOT NULL) OR
+        (email IS NOT NULL AND phone IS NOT NULL)
+    )
+)

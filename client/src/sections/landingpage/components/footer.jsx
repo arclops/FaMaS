@@ -39,7 +39,7 @@ function AppFooter() {
   };
 
   return (
-    <Container fluid>
+    <Container fluid >
       <Typography variant="body2" className="copyright">&copy; 2023 FAMAS. All Right Reserved.</Typography>
       <Stack direction="row" spacing={2} justifyContent="center" style={{ marginTop: '10px' }}>
         <IconButton color="black" href="https://www.facebook.com"><FacebookIcon /></IconButton>
