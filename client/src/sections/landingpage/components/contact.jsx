@@ -26,7 +26,7 @@ function AppContact() {
     event.target.reset();
     setContact(true);
     try {
-      await fetch('http://localhost:5000/api/homepage/contact', {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/homepage/contact`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",

@@ -1,6 +1,5 @@
-export default async function getdetails () {
-    const userid = localStorage.getItem('uid');
-    const response = await fetch(`http://localhost:5000/api/admin/getdets/${userid}`, {
+export default async function getdetails (userid) {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/getdets/${userid}`, {
         method: 'GET',
         headers: {
         "Content-Type": "application/json",

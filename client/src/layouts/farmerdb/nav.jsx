@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
-import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useState,useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -16,20 +16,28 @@ import { useRouter, usePathname } from 'src/routes/hooks';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
-import { account } from 'src/_mock/account';
-
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
-
-// ----------------------------------------------------------------------
+import getdetails from './common/accdetails';
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
   const router = useRouter();
   const upLg = useResponsive('up', 'lg');
+
+  const [farmeracc, setFarmeracc] = useState({}); // State to store admin account details
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const farmerAccount = await getdetails(localStorage.getItem('uid'));
+      setFarmeracc(farmerAccount);
+    };
+
+    fetchData(); // Fetch admin account details when component mounts
+  }, []);
 
   useEffect(() => {
     if (openNav) {
@@ -51,13 +59,13 @@ export default function Nav({ openNav, onCloseNav }) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={account.photoURL} alt="photoURL" />
+      <Avatar src={farmeracc.photoURL} alt="photoURL" />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">Farmer</Typography>
+        <Typography variant="subtitle2">{farmeracc.fname} {farmeracc.lname}</Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {account.role}
+          Farmer
         </Typography>
       </Box>
     </Box>
