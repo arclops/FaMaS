@@ -1,2 +1,14 @@
 /* scrollbar */
 @import 'simplebar-react/dist/simplebar.min.css';
+
+
+.paging-item {
+    fill: white !important;
+    padding: 40px;
+}
+
+.paging-dot circle{
+    cx: 4px;
+    cy: 4px;
+    r: 4px;
+}

@@ -33,9 +33,9 @@ const registerUser = async (req, res) => {
             );
 
             const token = jwtGenerator(results.rows[0]);
+            res.cookie('jwt', token, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none'});
             res.status(201).json({ uid: results.rows[0].uid, role: results.rows[0].role});
             serverlogger(`User created with id ${results.rows[0].uid}`, DateTime.now().setZone('Asia/Kolkata').toISO());
-            res.cookie('jwt', token, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none'});
         } else {
             return res.status(400).json({ error: 'Invalid request' });
         }
