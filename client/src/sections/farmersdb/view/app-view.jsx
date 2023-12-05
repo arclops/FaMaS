@@ -1,10 +1,12 @@
 import { faker } from '@faker-js/faker';
+// import { useState, useEffect } from 'react';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
 import AppTasks from '../app-tasks';
+// import getdetails from './accdetails';
 import AppNewsUpdate from '../app-news-update';
 import Iconify from '../../../components/iconify';
 import AppOrderTimeline from '../app-order-timeline';
@@ -14,20 +16,30 @@ import AppWidgetSummary from '../app-widget-summary';
 import AppTrafficBySite from '../app-traffic-by-site';
 import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from '../app-conversion-rates';
-
 // ----------------------------------------------------------------------
 // Admin dashboard, try customizing this
 export default function AppView() {
+  // const [farmeracc, setFarmeracc] = useState({}); // State to store admin account details
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const farmerAccount = await getdetails(localStorage.getItem('uid'));
+  //     setFarmeracc(farmerAccount);
+  //   };
+
+  //   fetchData(); // Fetch admin account details when component mounts
+  // }, []);
   return (
     <Container maxWidth="xl">
-      <Typography variant="h4" sx={{ mb: 5 }}>
-       HELLO ! WELCOME TO THE FARMER DASHBOARD 
+      <Typography variant="h3" sx={{ mb: 5 }}>
+        Dashboard
+        {/* {farmeracc.fname.charAt(0).toUpperCase() + farmeracc.fname.slice(1) }  */}
       </Typography>
 
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Total Farmers"
+            title="Market Listings"
             total={25}
             color="brightgreen"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
