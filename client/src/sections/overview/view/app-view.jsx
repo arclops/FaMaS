@@ -18,6 +18,7 @@ import AppConversionRates from '../app-conversion-rates';
 // ----------------------------------------------------------------------
 // Admin dashboard, try customizing this
 export default function AppView() {
+  
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>

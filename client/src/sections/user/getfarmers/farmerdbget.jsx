@@ -1,7 +1,7 @@
 export default async function getFarmerDb() {
     async function fetchsize(id) {
       try {
-        const response = await fetch(`http://localhost:5000/api/admin/farmers/farmsize/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/farmers/farmsize/${id}`);
         const jsonData = await response.json();
         if(!jsonData.data[0].size){
             return null;
@@ -15,7 +15,7 @@ export default async function getFarmerDb() {
 
     async function fetchfarms(id) {
       try {
-        const response = await fetch(`http://localhost:5000/api/admin/farmers/farms/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/farmers/farms/${id}`);
         const jsonData = await response.json();
         if(!jsonData.data[0].count){
             return null;
@@ -28,7 +28,7 @@ export default async function getFarmerDb() {
     }
     
     try {
-      const response = await fetch("http://localhost:5000/api/admin/farmers", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/farmers`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

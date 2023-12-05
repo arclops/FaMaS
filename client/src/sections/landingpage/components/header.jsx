@@ -1,5 +1,5 @@
-import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { React } from 'react';
 import { Link } from 'react-scroll';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -7,7 +7,10 @@ import Container from 'react-bootstrap/Container';
 
 import { Typography } from '@mui/material';
 
+import { useRouter } from '../../../routes/hooks';
+
 function AppHeader() {
+  const router = useRouter();
   const navLinkStyle = {
     padding: '0.5rem 1rem',
     margin: '0 0.5rem',
@@ -29,6 +32,9 @@ function AppHeader() {
           <Nav className="ms-auto">
             <Typography variant="h6" sx={navLinkStyle}>
               <Link to="home" smooth duration={10} offset={-75} style={{ cursor: 'pointer' }}>Home</Link>
+            </Typography>
+            <Typography variant="h6" sx={navLinkStyle} >
+              <Link to="marketplace" style={{ cursor: 'pointer' }} onClick={() => router.push('/marketplace')}>Market</Link>
             </Typography>
             <Typography variant="h6" sx={navLinkStyle}>
             <Link to="about" smooth duration={10} offset={-75} style={{ cursor: 'pointer' }}>About</Link>

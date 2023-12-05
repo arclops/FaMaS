@@ -6,13 +6,15 @@ import { Landing } from '../sections/landingpage';
 import DashboardLayout from '../layouts/dashboard';
 import { UnauthorizedView } from '../sections/error';
 
-export const IndexPage = lazy(() => import('../pages/app'));
+export const AdminPage = lazy(() => import('../pages/app'));
+export const FarmerPage = lazy(() => import('../pages/farmerdb'));
 export const BlogPage = lazy(() => import('../pages/blog'));
 export const UserPage = lazy(() => import('../pages/user'));
 export const LoginPage = lazy(() => import('../pages/login'));
 export const RegisterPage = lazy(() => import('../pages/register'));
 export const ProductsPage = lazy(() => import('../pages/products'));
 export const Page404 = lazy(() => import('../pages/page-not-found'));
+export const MarketPage = lazy(() => import('../pages/market'));
 export const { Unauthorised } = lazy(() => import('../sections/error/unauthorised'));
 export const { FarmersDB } = lazy(() => import('../sections/farmersdb/view'));
 
@@ -92,7 +94,7 @@ export default function Router() {
         </DashboardLayout>
       ),
       children: [
-        { path: 'admin', element: (role === 'admin' && isAuthenticated && refresher)? <IndexPage /> : unauth('admin'), index: true },
+        { path: 'admin', element: (role === 'admin' && isAuthenticated && refresher)? <AdminPage /> : unauth('admin'), index: true },
         { path: 'admin/farmers', element: (role === 'admin' && isAuthenticated && refresher) ? <UserPage /> : <Navigate to="/unauthorized" /> },
         { path: 'admin/products', element: (role === 'admin' && isAuthenticated && refresher) ? <ProductsPage /> : <Navigate to="/unauthorized" /> }
       ],
@@ -106,12 +108,12 @@ export default function Router() {
         </FarmerDBLayout>
       ),
       children: [
-        { path: 'dashboard', element: (role === 'farmer' && isAuthenticated && refresher )? <IndexPage /> : unauth('farmer'), index: true },
+        { path: 'dashboard', element: (role === 'farmer' && isAuthenticated && refresher )? <FarmerPage /> : unauth('farmer'), index: true },
         { path: 'dashboard/products', element: (role === 'farmer' && isAuthenticated && refresher ) ? <ProductsPage /> : <Navigate to="/unauthorized" /> },
+        { path: 'blog', element: (role === 'farmer' && isAuthenticated && refresher ) ?<BlogPage /> : <Navigate to="/unauthorized" /> },
       ],
     },
-    { path: 'marketplace', element: <ProductsPage /> },
-    { path: 'blog', element: <BlogPage /> },
+    { path: 'marketplace', element: <MarketPage /> },
     {
       path: '/',
       element: <Landing />,

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -12,8 +12,6 @@ import IconButton from '@mui/material/IconButton';
 import getdetails from './accdetails';
 import { useRouter } from '../../../routes/hooks';
 // ----------------------------------------------------------------------
-
-const account = await getdetails();
 
 const MENU_OPTIONS = [
   {
@@ -35,6 +33,16 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const router = useRouter();
+  const [adminacc, setAdminacc] = useState({}); // State to store admin account details
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const adminAccount = await getdetails(localStorage.getItem('uid'));
+      setAdminacc(adminAccount);
+    };
+
+    fetchData(); // Fetch admin account details when component mounts
+  }, []);
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
@@ -58,15 +66,15 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={account.photoURL}
-          alt={account.displayName}
+          src={adminacc.photoURL}
+          alt={adminacc.displayName}
           sx={{
             width: 36,
             height: 36,
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {account.displayName}
+          {adminacc.displayName}
         </Avatar>
       </IconButton>
 
@@ -87,10 +95,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            Admin {account.fname}
+            Admin {adminacc.fname}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {adminacc.email}
           </Typography>
         </Box>
 

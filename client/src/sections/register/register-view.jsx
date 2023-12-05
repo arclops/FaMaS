@@ -132,7 +132,7 @@ export default function RegistrationView() {
       const registrationData = { email, password, phone, fname, lname, role};
       console.log(registrationData);
       try{
-        const response = await fetch('http://localhost:5000/api/auth/register', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
           method: 'POST',
           headers: {
             "Content-Type": "application/json",
@@ -167,7 +167,7 @@ export default function RegistrationView() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '100vh',
+        height: '100vh'
       }}
     >
       <Logo
@@ -183,6 +183,12 @@ export default function RegistrationView() {
           p: 5,
           maxWidth: 450,
           width: '100%',
+          overflow: 'scroll',
+          overflowX: 'hidden',
+          scrollbarWidth: 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
         }}
       >
         <Typography variant="h4">Register for an Account</Typography>

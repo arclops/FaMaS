@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
-import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -23,15 +23,23 @@ import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 import getdetails from './common/accdetails';
 
-const account = await getdetails();
-
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
   const router = useRouter();
   const upLg = useResponsive('up', 'lg');
-  
+  const [adminacc, setAdminacc] = useState({}); // State to store admin account details
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const adminAccount = await getdetails(localStorage.getItem('uid'));
+      setAdminacc(adminAccount);
+    };
+
+    fetchData(); // Fetch admin account details when component mounts
+  }, []);
+
   useEffect(() => {
     if (openNav) {
       onCloseNav();
@@ -39,7 +47,7 @@ export default function Nav({ openNav, onCloseNav }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const renderAccount = (
+  const renderadminacc = (
     <Box
       sx={{
         my: 3,
@@ -52,10 +60,10 @@ export default function Nav({ openNav, onCloseNav }) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={account.photoURL} alt="photoURL" />
+      <Avatar src={adminacc.photoURL} alt="photoURL" />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.fname} {account.lname}</Typography>
+        <Typography variant="subtitle2">{adminacc.fname} {adminacc.lname}</Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           Administrator
@@ -116,7 +124,7 @@ export default function Nav({ openNav, onCloseNav }) {
     >
       <Logo sx={{ mt: 3, ml: 4 }} />
 
-      {renderAccount}
+      {renderadminacc}
 
       {renderMenu}
 

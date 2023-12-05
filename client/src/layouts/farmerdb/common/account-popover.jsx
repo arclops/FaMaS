@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -9,7 +9,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import { account } from 'src/_mock/account';
+import getdetails from './accdetails';
+import Iconify from '../../../components/iconify';
+import { useRouter } from '../../../routes/hooks';
+
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +35,18 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const router = useRouter();
 
+  const [farmeracc, setFarmeracc] = useState({}); // State to store admin account details
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const farmerAccount = await getdetails(localStorage.getItem('uid'));
+      setFarmeracc(farmerAccount);
+    };
+
+    fetchData(); // Fetch admin account details when component mounts
+  }, []);
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
@@ -56,15 +70,15 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={account.photoURL}
-          alt={account.displayName}
+          src={farmeracc.photoURL}
+          alt={farmeracc.displayName}
           sx={{
             width: 36,
             height: 36,
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {account.displayName.charAt(0).toUpperCase()}
+          {farmeracc.displayName}
         </Avatar>
       </IconButton>
 
@@ -85,10 +99,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {farmeracc.fname} {farmeracc.lname}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            +91 {farmeracc.phone}
           </Typography>
         </Box>
 
@@ -96,16 +110,17 @@ export default function AccountPopover() {
 
         {MENU_OPTIONS.map((option) => (
           <MenuItem key={option.label} onClick={handleClose}>
+            <Iconify icon={option.icon} sx={{ mr: 1.5, width: 20, height: 20, color: 'gray' }} />
             {option.label}
           </MenuItem>
         ))}
 
-        <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
+        <Divider sx={{ borderStyle: 'dashed', m: 1, border: 1 }} />
 
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={() => {localStorage.removeItem('uid');localStorage.removeItem('role');router.push('/login');}}
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
           Logout
