@@ -1,11 +1,14 @@
 import { useState } from 'react';
 
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
 import { products } from 'src/_mock/products';
+
+import Iconify from 'src/components/iconify';
 
 import ProductCard from '../product-card';
 import ProductSort from '../product-sort';
@@ -27,8 +30,8 @@ export default function ProductsView() {
 
   return (
     <Container>
-      <Typography variant="h4" sx={{ mb: 5 }}>
-        Products
+      <Typography variant="h3" sx={{ mb: 5 }}>
+        Your Products
       </Typography>
 
       <Stack
@@ -38,6 +41,10 @@ export default function ProductsView() {
         justifyContent="flex-end"
         sx={{ mb: 5 }}
       >
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} sx={{ mr: 2 }}>
+          Add Product
+        </Button>
+
         <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
           <ProductFilters
             openFilter={openFilter}
@@ -57,6 +64,7 @@ export default function ProductsView() {
         ))}
       </Grid>
 
+      
       <ProductCartWidget />
     </Container>
   );
