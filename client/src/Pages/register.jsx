@@ -9,7 +9,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> Register | FaMaS</title>
+        <title> Registration </title>
       </Helmet>
 
       <RegisterView />
