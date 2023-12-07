@@ -38,17 +38,21 @@ export default function UserPage() {
     const fetchData = async () => {
       try {
         const data = await getFarmerDb();
+        console.log(data);
         if (data === null || data.length === 0) {
           setZeroRows(true);
+        } else {
+          setZeroRows(false);  // Set zeroRows to false if there are farmers in the database
         }
         setUsers(data);
       } catch (error) {
         console.error('Error fetching data:', error.message);
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';

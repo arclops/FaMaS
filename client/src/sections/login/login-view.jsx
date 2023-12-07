@@ -150,6 +150,12 @@ export default function LoginView() {
             width: 1,
             maxWidth: 450,
             height: 650,
+            overflow: 'scroll',
+            overflowX: 'hidden',
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
           }}
         >
           <Typography variant="h4">Sign in to your Account</Typography>

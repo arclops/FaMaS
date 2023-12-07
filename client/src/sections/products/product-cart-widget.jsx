@@ -23,7 +23,7 @@ export default function CartWidget() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 400) {
+      if (window.scrollY > 350) {
         setShowTopBtn(true);
       } else {
         setShowTopBtn(false);
