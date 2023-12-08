@@ -40,7 +40,7 @@ CREATE TABLE farmers (
     address TEXT,
     aadhar VARCHAR(12) UNIQUE NOT NULL,
     pan VARCHAR(10) UNIQUE,
-    status VARCHAR(10) NOT NULL CHECK (status IN ('active', 'inactive', 'banned')),
+    status VARCHAR(10) NOT NULL CHECK (status IN ('active', 'inactive', 'banned'))
 );
 
 CREATE TABLE farm (
@@ -50,7 +50,7 @@ CREATE TABLE farm (
     address TEXT,
     status VARCHAR(10) NOT NULL CHECK (status IN ('active', 'inactive')),
     product VARCHAR(255) NOT NULL
-)
+);
 
 CREATE TABLE products (
     pid uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -62,7 +62,7 @@ CREATE TABLE products (
     image_url VARCHAR(255),
     sale_status boolean DEFAULT false,
     sale_price numeric(10, 2)
-)
+);
 
 -- Server logs
 
