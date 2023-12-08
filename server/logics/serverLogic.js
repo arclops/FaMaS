@@ -37,7 +37,7 @@ const startServer = () => {
 };
 
 const init = async () => {
-    console.log('PostgreSQL server is up and running, starting Express server...');
+    serverlogger('PostgreSQL server is up and running, starting Express server...');
     startServer();
 };
 
