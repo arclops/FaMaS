@@ -53,7 +53,7 @@ CREATE TABLE farm (
 )
 
 CREATE TABLE products (
-    pid uuid PRIMARY KEY,
+    pid uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     pname VARCHAR(255) NOT NULL,
     fid uuid REFERENCES farmers(fid) on update cascade on delete cascade,
     variants INT NOT NULL,

@@ -23,6 +23,8 @@ import {
   InputAdornment,
 } from '@mui/material';
 
+import { AddProductSuccess } from './success';
+
 // cid.config({
 //   cloud_name: `${import.meta.env.VITE_CNARY_CLOUD_NAME}`, // Replace with your Cloudinary cloud name
 //   api_key: `${import.meta.env.VITE_CNARY_API_KEY}`, // Replace with your Cloudinary API key
@@ -39,6 +41,7 @@ const AddProductModal = ({ openAP, handleCloseAP }) => {
   const [salePrice, setSalePrice] = useState(0);
   const [productImage, setProductImage] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleProductSubmit = async (e) => {
     e.preventDefault();
@@ -59,25 +62,29 @@ const AddProductModal = ({ openAP, handleCloseAP }) => {
       console.log(result);  
   
       const responsepg = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/products`,
+        `${import.meta.env.VITE_API_URL}/api/admin/products/add`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            "name": productName,
+            "pname": productName,
+            "fid" : localStorage.getItem("uid"),
             "variants": variants,
             "price": price,
             "stock": stock,
-            "onSale": onSale,
-            "salePrice": salePrice,
-            "image": result.secure_url,
+            "img_url": result.secure_url,
+            "sale_status": onSale,
+            "sale_price": salePrice,
           }),
         }
       );
       const data = await responsepg.json();
-      console.log(data);
+      if ( data.success ){
+        setSuccess(true);
+        setUploading(false);
+      }
       setUploading(false);
     } catch (error) {
       console.error('Error uploading image to Cloudinary:', error);
@@ -305,6 +312,7 @@ const AddProductModal = ({ openAP, handleCloseAP }) => {
                   >
                     Add Product
                   </Button>
+                  <AddProductSuccess openAPS={success} handlecloseAPS={() => {setSuccess(false);handleCloser();}} />
                 </Stack>
               </Grid>
             </Grid>

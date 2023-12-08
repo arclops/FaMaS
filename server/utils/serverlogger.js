@@ -1,8 +1,10 @@
 const pool = require("../db");
+const { DateTime } = require('luxon');
 
-async function serverlogger(string,datetime){
+async function serverlogger(string){
     console.log(string);
-    try{await pool.query(`INSERT INTO serverlogs (logs,datetime) VALUES ($1,$2)`, [string,datetime]);return "ok";}
+    const curtime = DateTime.now().setZone('Asia/Kolkata').toISO();
+    try{await pool.query(`INSERT INTO serverlogs (logs,datetime) VALUES ($1,$2)`, [string,curtime]);return "ok";}
     catch(error){return error.message;};
 }
 

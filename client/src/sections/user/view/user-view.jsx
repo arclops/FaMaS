@@ -38,7 +38,6 @@ export default function UserPage() {
     const fetchData = async () => {
       try {
         const data = await getFarmerDb();
-        console.log(data);
         if (data === null || data.length === 0) {
           setZeroRows(true);
         } else {
@@ -156,6 +155,7 @@ export default function UserPage() {
                     .map((row) => (
                       <UserTableRow
                         key={row.fid}
+                        fid={row.fid}
                         avatarUrl={row.avatarUrl}
                         name={row.name}
                         contact={row.contact}

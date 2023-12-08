@@ -35,7 +35,7 @@ const registerUser = async (req, res) => {
             const token = jwtGenerator(results.rows[0]);
             res.cookie('jwt', token, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none'});
             res.status(201).json({ uid: results.rows[0].uid, role: results.rows[0].role});
-            serverlogger(`User created with id ${results.rows[0].uid}`, DateTime.now().setZone('Asia/Kolkata').toISO());
+            serverlogger(`User created with id ${results.rows[0].uid}`);
         } else {
             return res.status(400).json({ error: 'Invalid request' });
         }
@@ -71,7 +71,7 @@ const loginUser = async (req, res) => {
         const dbUser = user.rows[0];
         const passwordMatch = await bcrypt.compare(password, dbUser.password);
 
-        if (passwordMatch) {
+        if (passwordMatch && user.rows[0].role === 'admin') {
             const date = DateTime.now().setZone('Asia/Kolkata');
             const lastlog = date.toISO();
             await pool.query(`UPDATE users SET lastlogin = $1 WHERE ${userColumn} = $2`, [lastlog, userIdentifier]);
@@ -79,8 +79,23 @@ const loginUser = async (req, res) => {
             const token = jwtGenerator(dbUser);
             res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' });
             res.status(200).json({ uid: dbUser.uid, role: dbUser.role });
-            serverlogger(`User ${dbUser.fname} ${dbUser.lname} logged in at ${lastlog}`, DateTime.now().setZone('Asia/Kolkata').toISO());
-        } else {
+            serverlogger(`Admin ${dbUser.fname} ${dbUser.lname} logged in at ${lastlog}`);
+        } 
+        else if (passwordMatch && user.rows[0].role === 'farmer'){
+            const farmer = await pool.query(`SELECT * FROM farmers WHERE fid = $1`, [dbUser.uid]);
+            if (farmer.rows[0].status === 'banned'){
+                return res.status(200).send({message:"Your account has been banned"});
+            }
+            const date = DateTime.now().setZone('Asia/Kolkata');
+            const lastlog = date.toISO();
+            await pool.query(`UPDATE users SET lastlogin = $1 WHERE ${userColumn} = $2`, [lastlog, userIdentifier]);
+
+            const token = jwtGenerator(dbUser);
+            res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' });
+            res.status(200).json({ uid: dbUser.uid, role: dbUser.role });
+            serverlogger(`Farmer ${dbUser.fname} ${dbUser.lname} logged in at ${lastlog}`);
+        } 
+        else {
             return res.status(401).send("Incorrect password");
         }
     } catch (error) {

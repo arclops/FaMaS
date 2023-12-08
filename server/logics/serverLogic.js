@@ -28,9 +28,11 @@ const startServer = () => {
   app.use('/api/admin', require('../routes/admindb/farmermanagement')); // Admin Route
   app.use('/api/admin/getdets', require('../routes/admindb/adminacc')); // Admin Details Route
   app.use('/api/homepage', require('../routes/homepage/landing')); // Home Page Route
-    // Start Server
+  app.use('/api/user', require('../routes/farmerdb/farmerdb.js')); // Farmer Products Route
+  app.use('/api/market', require('../routes/market/market')); // Market Route
+  // Start Server
   app.listen(5000, () => {
-    serverlogger('Server started on port 5000', DateTime.now().setZone('Asia/Kolkata').toISO());
+    serverlogger('Server started on port 5000');
   });
 };
 

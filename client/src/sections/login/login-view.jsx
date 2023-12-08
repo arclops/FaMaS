@@ -26,8 +26,8 @@ import { Logerror } from 'src/sections/login/error';
 import { Logsuccess } from 'src/sections/login/success';
 import { ForgotPass } from 'src/sections/forgotpassword';
 
+import { AccountBanned } from './banned';
 import { Futuresupport } from './futuresupport';
-
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
@@ -41,6 +41,7 @@ export default function LoginView() {
   const [ err, seterr ] = useState(false);
   const [ openFS, setopenFS ] = useState(false);
   const [ role, setrole ] = useState('farmer');
+  const [ openBan, setopenBan ] = useState(false);
   const handleClick = async (e) => {
     e.preventDefault();
     const email = emsel? document.getElementsByName("email")[0].value:null;
@@ -57,6 +58,10 @@ export default function LoginView() {
     });
     if( response.status === 200) {
       const resp = await response.json();
+      if ('message' in resp){
+        setopenBan(true);
+        return;
+      }
       localStorage.setItem("uid", resp.uid);
       localStorage.setItem("role", resp.role);
       if (resp.role === "admin") setrole("admin");
@@ -169,6 +174,7 @@ export default function LoginView() {
             {/* <Button onClick={() => seterr(true)}>Error</Button> */}
             <Logerror openE={err} handleCloseE={() => seterr(false)} />
             <Futuresupport openFS={openFS} handlecloseFS={() => setopenFS(false)} />
+            <AccountBanned openAB={openBan} handlecloseAB={() => setopenBan(false)} />
           </Stack>
           
 

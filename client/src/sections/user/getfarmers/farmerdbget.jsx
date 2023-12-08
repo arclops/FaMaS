@@ -43,7 +43,7 @@ export default async function getFarmerDb() {
       
       if(jsonData.data) {
         const users = await Promise.all(jsonData.data.map(async (farmer, index) => ({
-          key: farmer.fid,
+          fid: farmer.fid,
           name: `${farmer.fname} ${farmer.lname}`,
           avatarUrl: `/assets/images/avatars/avatar_${index + 1}.jpg`,
           contact: farmer.email ? `${farmer.phone}   ${farmer.email}` : farmer.phone,

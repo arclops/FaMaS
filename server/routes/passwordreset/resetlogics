@@ -20,7 +20,7 @@ function isPhone(value) {
 router.get("/userexists/:data", async (req, res) => {
     try {
         console.log(`Password reset request initiated for ${req.params.data} at time ${DateTime.now().setZone('Asia/Kolkata').toISO()}`);
-        await serverlogger(`Password reset request initiated for ${req.params.data}`, DateTime.now().setZone('Asia/Kolkata').toISO());
+        await serverlogger(`Password reset request initiated for ${req.params.data}`);
         let data = req.params.data;
 
         if (isEmail(data)) {

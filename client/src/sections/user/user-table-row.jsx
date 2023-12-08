@@ -31,6 +31,31 @@ export default function UserTableRow({
 }) {
   const [open, setOpen] = useState(null);
 
+  const handleBan = async () => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/farmers/ban/${fid}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.status === 200) {
+      handleCloseMenu();
+      window.location.reload();
+    }
+  };
+
+  const handleUnban = async () => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/farmers/unban/${fid}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.status === 200) {
+      handleCloseMenu();
+      window.location.reload();
+    }
+  };
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
@@ -84,15 +109,20 @@ export default function UserTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
-          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
+        { (status === 'active' || status === 'inactive') && (
+          <MenuItem onClick={handleBan}>
+            <Iconify icon="ion:ban-outline" sx={{ mr: 2, color: 'red'}} />
+            Ban
+          </MenuItem>
+        )}
+        
+        { status === 'banned' && (
+          <MenuItem onClick={handleUnban}>
+            <Iconify icon="solar:user-plus-linear" sx={{ mr: 2, color: 'green'}} />
+            UnBan
+          </MenuItem>
+        )}
+        
       </Popover>
     </>
   );

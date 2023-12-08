@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const pool = require("../../db");
 const { DateTime } = require('luxon');
+const { serverlogger } = require("../../utils/serverlogger");
 
 router.post("/contact", async (req, res) => {
     try {
@@ -8,6 +9,7 @@ router.post("/contact", async (req, res) => {
         const date = DateTime.now().setZone('Asia/Kolkata');
         const datetime = date.toISO();
         await pool.query("INSERT INTO contactus (fname, lname, email, phone, message, datetime) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *", [fname, lname, email, phone, message, datetime]);
+        await serverlogger("New contact request submitted");
         return res.status(200);
     } catch (error) {
         console.log(error.message);

@@ -1,7 +1,9 @@
-import Badge from '@mui/material/Badge';
-import { styled } from '@mui/material/styles';
+import { useState, useEffect } from 'react';
 
-import Iconify from 'src/components/iconify';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+
 
 // ----------------------------------------------------------------------
 
@@ -11,29 +13,62 @@ const StyledRoot = styled('div')(({ theme }) => ({
   display: 'flex',
   cursor: 'pointer',
   position: 'fixed',
-  alignItems: 'center',
-  top: theme.spacing(16),
-  height: theme.spacing(5),
-  paddingLeft: theme.spacing(2),
-  paddingRight: theme.spacing(2),
-  paddingTop: theme.spacing(1.25),
-  boxShadow: theme.customShadows.z20,
-  color: theme.palette.text.primary,
-  backgroundColor: theme.palette.background.paper,
-  borderTopLeftRadius: Number(theme.shape.borderRadius) * 2,
-  borderBottomLeftRadius: Number(theme.shape.borderRadius) * 2,
-  transition: theme.transitions.create('opacity'),
-  '&:hover': { opacity: 0.72 },
+  alignItems: 'center'
 }));
 
 // ----------------------------------------------------------------------
 
 export default function CartWidget() {
+  const [showTopBtn, setShowTopBtn] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 350) {
+        setShowTopBtn(true);
+      } else {
+        setShowTopBtn(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const goTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+      duration: 100
+    });
+  };
+
   return (
-    <StyledRoot>
-      <Badge showZero badgeContent={0} color="error" max={99}>
-        <Iconify icon="eva:shopping-cart-fill" width={24} height={24} />
-      </Badge>
-    </StyledRoot>
+    <>
+      {showTopBtn && (
+        <StyledRoot>
+          <Button
+            onClick={goTop}
+            sx={{
+              cursor: 'pointer',
+              borderRadius: '50%',
+              position: 'fixed',
+              bottom: '20px',
+              right: '20px',
+              padding: '1px',
+              width: '50px', // Set the width and height to make it perfectly round
+              height: '50px',
+              color: 'white',
+            }}
+            style={{ backgroundColor: 'black' }}
+          >
+            <ArrowUpwardIcon />
+          </Button>
+        </StyledRoot>
+      )}
+    </>
   );
 }

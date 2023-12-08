@@ -8,6 +8,5 @@ export default async function getdetails () {
     });
     const data = await response.json();
     const newdata = {...data.data, photoURL: '/assets/images/avatars/avatar_25.jpg'};
-    console.log(newdata);
     return newdata;
 }

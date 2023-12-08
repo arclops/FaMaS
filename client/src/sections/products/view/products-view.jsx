@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -8,16 +8,20 @@ import Typography from '@mui/material/Typography';
 
 import ProductCard from '../product-card';
 import ProductSort from '../product-sort';
+import getProducts from '../utils/getproducts';
 import ProductFilters from '../product-filters';
 import Iconify from '../../../components/iconify';
-import { products } from '../../../_mock/products';
+// import { products } from '../../../_mock/products';
 import AddProductModal from '../modals/addproduct';
 import ProductCartWidget from '../product-cart-widget';
 // ----------------------------------------------------------------------
 
+
 export default function ProductsView() {
   const [openFilter, setOpenFilter] = useState(false);
   const [addProduct, setAddProduct] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [zeroprod, setZeroprod] = useState(false);
   const handleOpenFilter = () => {
     setOpenFilter(true);
   };
@@ -25,6 +29,24 @@ export default function ProductsView() {
   const handleCloseFilter = () => {
     setOpenFilter(false);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getProducts();
+        if (data === null || data.length === 0) {
+          setZeroprod(true);
+        } else {
+          setZeroprod(false);  // Set zeroRows to false if there are farmers in the database
+        }
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   return (
     <Container>
@@ -53,15 +75,15 @@ export default function ProductsView() {
           <ProductSort />
         </Stack>
       </Stack>
-
+      { !zeroprod &&
       <Grid container spacing={3}>
         {products.map((product) => (
-          <Grid key={product.id} xs={12} sm={6} md={3}>
+          <Grid key={product.pid} xs={12} sm={6} md={3}>
             <ProductCard product={product} />
           </Grid>
         ))}
       </Grid>
-
+      }
       <AddProductModal openAP={addProduct} handleCloseAP={() => setAddProduct(false)} />
 
       <ProductCartWidget />
