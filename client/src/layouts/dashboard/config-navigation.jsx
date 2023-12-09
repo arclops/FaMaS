@@ -19,11 +19,6 @@ const navConfig = [
     icon: icon('ic_user'),
   },
   {
-    title: 'Inventory',
-    path: '/admin/products',
-    icon: icon('ic_cart'),
-  },
-  {
     title: 'Not found',
     path: '/404',
     icon: icon('ic_disabled'),

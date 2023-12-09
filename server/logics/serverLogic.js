@@ -37,8 +37,32 @@ const startServer = () => {
 };
 
 const init = async () => {
+  try{
+    await checkPostgresStatus(1000);
     serverlogger('PostgreSQL server is up and running, starting Express server...');
     startServer();
+  } catch (error) {
+    console.log('PostgreSQL server is not running.');
+    console.log('Attempting to start PostgreSQL server...');
+    try {
+      await autopsql();
+      console.log('PostgreSQL server start initiated...');
+      await checkPostgresStatus(20000); // 20 secs limit for autostart
+      console.log('Auto Start successful!'); // Admin Access granted
+      console.log('PostgreSQL server is up and running, starting Express server...');
+      startServer();
+    } catch (err) {
+      console.error('AutoStart Failed!'); // If Admin Access Denied
+      if (err.toString().includes('Access is denied')) {
+        await promptForManualStart();
+        await checkPostgresStatus(300000); // Check again after manual start
+        console.log('PostgreSQL server started manually, proceeding...'); // Manual start from services.msc
+        startServer();
+      } else {
+        console.error('Unhandled error occurred:', err.message);
+      }
+    }
+  }
 };
 
 module.exports = { startServer, init };
