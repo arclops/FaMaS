@@ -159,16 +159,16 @@
         "custom-groups": {
           "value": {
             "custom-mui": "@mui/**",
-            "custom-routes": "src/routes/**",
-            "custom-hooks": "src/hooks/**",
-            "custom-utils": "src/utils/**",
-            "custom-components": "src/components/**",
-            "custom-sections": "src/sections/**",
-            "custom-types": "src/types/**"
+            "custom-routes": "@/routes/**",
+            "custom-hooks": "@/hooks/**",
+            "custom-utils": "@/utils/**",
+            "custom-components": "@/components/**",
+            "custom-sections": "@/sections/**",
+            "custom-types": "@/types/**"
           }
         },
         "internal-pattern": [
-          "src/**"
+          "@/**"
         ]
       }
     ]

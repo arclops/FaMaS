@@ -9,24 +9,24 @@ export default defineConfig({
     react(),
     checker({
       eslint: {
-        lintCommand: 'eslint "./src/**/*.{js,jsx,ts,tsx}"',
+        lintCommand: 'eslint "./@/**/*.{js,jsx,ts,tsx}"',
       },
     }),
   ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@components': path.resolve(__dirname, './src/components'),
-      '@hooks': path.resolve(__dirname, './src/hooks'),
-      '@utils': path.resolve(__dirname, './src/utils'),
-      '@images': path.resolve(__dirname, './src/images'),
-      '@layouts': path.resolve(__dirname, './src/layouts'),
-      '@pages': path.resolve(__dirname, './src/pages'),
-      '@routes': path.resolve(__dirname, './src/routes'),
-      '@sections': path.resolve(__dirname, './src/sections'),
-      '@theme': path.resolve(__dirname, './src/theme'),
-      '@assets': path.resolve(__dirname, './src/assets'),
-      '@_mock': path.resolve(__dirname, './src/_mock'),
+      '@components': path.resolve(__dirname, './@/components'),
+      '@hooks': path.resolve(__dirname, './@/hooks'),
+      '@utils': path.resolve(__dirname, './@/utils'),
+      '@images': path.resolve(__dirname, './@/images'),
+      '@layouts': path.resolve(__dirname, './@/layouts'),
+      '@pages': path.resolve(__dirname, './@/pages'),
+      '@routes': path.resolve(__dirname, './@/routes'),
+      '@sections': path.resolve(__dirname, './@/sections'),
+      '@theme': path.resolve(__dirname, './@/theme'),
+      '@assets': path.resolve(__dirname, './@/assets'),
+      '@_mock': path.resolve(__dirname, './@/_mock'),
     }
   },
   server: {

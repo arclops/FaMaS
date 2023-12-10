@@ -11,13 +11,13 @@ import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
 
-import { RouterLink } from 'src/routes/components';
-import { useRouter,usePathname } from 'src/routes/hooks';
+import { RouterLink } from '@/routes/components';
+import { useRouter,usePathname } from '@/routes/hooks';
 
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useResponsive } from '@/hooks/use-responsive';
 
-import Logo from 'src/components/logo';
-import Scrollbar from 'src/components/scrollbar';
+import Logo from '@/components/logo';
+import Scrollbar from '@/components/scrollbar';
 
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
