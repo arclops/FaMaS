@@ -14,16 +14,20 @@ export default defineConfig({
     }),
   ],
   resolve: {
-    alias: [
-      {
-        find: /^~(.+)/,
-        replacement: path.resolve(process.cwd(), 'node_modules', '$1'),
-      },
-      {
-        find: /^src(.+)/,
-        replacement: path.resolve(process.cwd(), 'src', '$1'),
-      },
-    ],
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+      '@images': path.resolve(__dirname, './src/images'),
+      '@layouts': path.resolve(__dirname, './src/layouts'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@routes': path.resolve(__dirname, './src/routes'),
+      '@sections': path.resolve(__dirname, './src/sections'),
+      '@theme': path.resolve(__dirname, './src/theme'),
+      '@assets': path.resolve(__dirname, './src/assets'),
+      '@_mock': path.resolve(__dirname, './src/_mock'),
+    }
   },
   server: {
     port: 3030,
