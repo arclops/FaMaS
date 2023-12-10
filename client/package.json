@@ -6,7 +6,7 @@
   "private": false,
   "scripts": {
     "dev": "vite",
-    "start": "dotenv --env-path .env.local && vite preview",
+    "start": "vite preview",
     "build": "vite build",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
@@ -64,6 +64,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react-swc": "^3.4.1",
+    "dotenv": "^16.3.1",
     "eslint": "^8.51.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.0.0",
