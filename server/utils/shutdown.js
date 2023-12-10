@@ -1,5 +1,5 @@
 const pool = require("../db.js");
-const { serverlogger } = require('./utils/serverlogger.js');
+const { serverlogger } = require('./serverlogger');
 
 const gracefulShutdown = () => {
     serverlogger('Server is shutting down gracefully...');
