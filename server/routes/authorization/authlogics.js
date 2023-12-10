@@ -86,6 +86,7 @@ const loginUser = async (req, res) => {
             if (farmer.rows[0].status === 'banned'){
                 return res.status(200).send({message:"Your account has been banned"});
             }
+            const activfarmer = await pool.query(`UPDATE farmers SET status = 'active' WHERE fid = $1`, [dbUser.uid]);
             const date = DateTime.now().setZone('Asia/Kolkata');
             const lastlog = date.toISO();
             await pool.query(`UPDATE users SET lastlogin = $1 WHERE ${userColumn} = $2`, [lastlog, userIdentifier]);

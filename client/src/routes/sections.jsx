@@ -96,7 +96,6 @@ export default function Router() {
       children: [
         { path: 'admin', element: (role === 'admin' && isAuthenticated && refresher)? <AdminPage /> : unauth('admin'), index: true },
         { path: 'admin/farmers', element: (role === 'admin' && isAuthenticated && refresher) ? <UserPage /> : <Navigate to="/unauthorized" /> },
-        { path: 'admin/products', element: (role === 'admin' && isAuthenticated && refresher) ? <ProductsPage /> : <Navigate to="/unauthorized" /> }
       ],
     },
     {
