@@ -1,22 +1,24 @@
+/* eslint-disable import/no-unresolved */
 import { lazy, Suspense, useState, useEffect } from 'react';
 import { Outlet, Navigate, useRoutes, useNavigate } from 'react-router-dom';
 
-import FarmerDBLayout from '../layouts/farmerdb';
-import { Landing } from '../sections/landingpage';
-import DashboardLayout from '../layouts/dashboard';
-import { UnauthorizedView } from '../sections/error';
+import FarmerDBLayout from 'src/layouts/farmerdb';
+import DashboardLayout from 'src/layouts/dashboard';
 
-export const AdminPage = lazy(() => import('../pages/app'));
-export const FarmerPage = lazy(() => import('../pages/farmerdb'));
-export const BlogPage = lazy(() => import('../pages/blog'));
-export const UserPage = lazy(() => import('../pages/user'));
-export const LoginPage = lazy(() => import('../pages/login'));
-export const RegisterPage = lazy(() => import('../pages/register'));
-export const ProductsPage = lazy(() => import('../pages/products'));
-export const Page404 = lazy(() => import('../pages/page-not-found'));
-export const MarketPage = lazy(() => import('../pages/market'));
-export const { Unauthorised } = lazy(() => import('../sections/error/unauthorised'));
-export const { FarmersDB } = lazy(() => import('../sections/farmersdb/view'));
+import { Landing } from 'src/sections/landingpage';
+import { UnauthorizedView } from 'src/sections/error';
+
+export const AdminPage = lazy(() => import('src/pages/app'));
+export const FarmerPage = lazy(() => import('src/pages/farmerdb'));
+export const BlogPage = lazy(() => import('src/pages/blog'));
+export const UserPage = lazy(() => import('src/pages/user'));
+export const LoginPage = lazy(() => import('src/pages/login'));
+export const RegisterPage = lazy(() => import('src/pages/register'));
+export const ProductsPage = lazy(() => import('src/pages/products'));
+export const Page404 = lazy(() => import('src/pages/page-not-found'));
+export const MarketPage = lazy(() => import('src/pages/market'));
+export const { Unauthorised } = lazy(() => import('src/sections/error/unauthorised'));
+export const { FarmersDB } = lazy(() => import('src/sections/farmersdb/view'));
 
 // ----------------------------------------------------------------------
 
@@ -88,7 +90,7 @@ export default function Router() {
     {
       element: (
         <DashboardLayout>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>Loadingsrc.</div>}>
             <Outlet />
           </Suspense>
         </DashboardLayout>
@@ -101,7 +103,7 @@ export default function Router() {
     {
       element: (
         <FarmerDBLayout>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>Loadingsrc.</div>}>
             <Outlet />
           </Suspense>
         </FarmerDBLayout>
