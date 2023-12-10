@@ -28,10 +28,9 @@ const startServer = () => {
     serverlogger(`Server started on port ${process.env.PORT}`);
   });
 
-  const shutdownHandler = gracefulShutdown();
-  process.on('SIGTERM', shutdownHandler);
-  process.on('SIGINT', shutdownHandler);
-  process.on('SIGQUIT', shutdownHandler);
+  process.on('SIGTERM', gracefulShutdown);
+  process.on('SIGINT', gracefulShutdown);
+  process.on('SIGQUIT', gracefulShutdown);
 };
 
 const init = async () => {

@@ -9,7 +9,7 @@ const gracefulShutdown = () => {
     } else {
         console.log('Database pool disconnected');
     }
-    console.log('Server is now shutting down...');
+    console.log('Graceful shut down successful');
     process.exit(0);
     });
 };
