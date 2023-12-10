@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 
 // eslint-disable-next-line import/no-unresolved
-import { ProductsView } from 'src/sections/products/view';
+import { ProductsView } from '@/sections/products/view';
 
 // ----------------------------------------------------------------------
 

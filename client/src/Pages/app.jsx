@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 
 // eslint-disable-next-line import/no-unresolved
-import { AppView } from 'src/sections/overview/view';
+import { AppView } from '@/sections/overview/view';
 
 // ----------------------------------------------------------------------
 

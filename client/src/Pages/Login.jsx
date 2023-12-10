@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { Helmet } from 'react-helmet-async';
 
-import { LoginView } from 'src/sections/login';
+import { LoginView } from '@/sections/login';
 
 // ----------------------------------------------------------------------
 
