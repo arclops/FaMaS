@@ -4,22 +4,15 @@ const app = express();
 const cors = require('cors');
 const { DateTime } = require('luxon');
 const { serverlogger } = require('../utils/serverlogger.js');
-const { autopsql, checkPostgresStatus, promptForManualStart } = require('../utils/postgresUtils.js');
-
+const pool = require("../db.js");
+const gracefulShutdown = require('./utils/shutdown');
 // Function to start the Express server
 const startServer = () => {
     // Middlewares
   app.use(cors({
-    origin: 'http://localhost:3030',
+    origin: process.env.ALLOWED_ORIGINS.split(','),
     credentials: true,
   }));
-  app.use((_, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3030');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    next();
-  });
   app.use(express.json());
   app.use(helmet());
     // Routes
@@ -31,37 +24,29 @@ const startServer = () => {
   app.use('/api/user', require('../routes/farmerdb/farmerdb.js')); // Farmer Products Route
   app.use('/api/market', require('../routes/market/market')); // Market Route
   // Start Server
-  app.listen(5000, () => {
-    serverlogger('Server started on port 5000');
+  app.listen(process.env.PORT, () => {
+    serverlogger(`Server started on port ${process.env.PORT}`);
   });
+
+  const shutdownHandler = gracefulShutdown();
+  process.on('SIGTERM', shutdownHandler);
+  process.on('SIGINT', shutdownHandler);
+  process.on('SIGQUIT', shutdownHandler);
 };
 
 const init = async () => {
-  try{
-    await checkPostgresStatus(1000);
-    serverlogger('PostgreSQL server is up and running, starting Express server...');
-    startServer();
+  try {
+    const client = await pool.connect();
+    console.log('Connected to PostgreSQL database!');
+    client.release();
   } catch (error) {
-    console.log('PostgreSQL server is not running.');
-    console.log('Attempting to start PostgreSQL server...');
-    try {
-      await autopsql();
-      console.log('PostgreSQL server start initiated...');
-      await checkPostgresStatus(20000); // 20 secs limit for autostart
-      console.log('Auto Start successful!'); // Admin Access granted
-      console.log('PostgreSQL server is up and running, starting Express server...');
-      startServer();
-    } catch (err) {
-      console.error('AutoStart Failed!'); // If Admin Access Denied
-      if (err.toString().includes('Access is denied')) {
-        await promptForManualStart();
-        await checkPostgresStatus(300000); // Check again after manual start
-        console.log('PostgreSQL server started manually, proceeding...'); // Manual start from services.msc
-        startServer();
-      } else {
-        console.error('Unhandled error occurred:', err.message);
-      }
-    }
+    console.error('Error connecting to PostgreSQL database:', error.message);
+    process.exit(1);
+  } finally {
+    serverlogger('PostgreSQL server is up and running, starting Express server...');
+    const curtime = DateTime.now().setZone('Asia/Kolkata').toISO();
+    serverlogger(`Server started at ${curtime}`);
+    startServer();
   }
 };
 
