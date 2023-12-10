@@ -16,18 +16,18 @@ export default defineConfig({
       },
     }),
   ],
-  // resolve: {
-  //   alias: [
-  //     {
-  //       find: /^~(.+)/,
-  //       replacement: path.join(process.cwd(), 'node_modules/$1'),
-  //     },
-  //     {
-  //       find: /^src(.+)/,
-  //       replacement: path.join(process.cwd(), 'src/$1'),
-  //     },
-  //   ],
-  // },
+  resolve: {
+    alias: [
+      {
+        find: /^~(.+)/,
+        replacement: path.join(process.cwd(), 'node_modules/$1'),
+      },
+      {
+        find: /^src(.+)/,
+        replacement: (pathToSrc) => path.resolve(process.cwd(), 'src', pathToSrc),
+      },
+    ],
+  },
   server: {
     port: 3030,
   },
