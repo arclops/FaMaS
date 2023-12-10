@@ -24,7 +24,7 @@ export default defineConfig({
       },
       {
         find: /^src(.+)/,
-        replacement: (pathToSrc) => path.resolve(process.cwd(), 'src', pathToSrc),
+        replacement: path.resolve(process.cwd(), 'src'),
       },
     ],
   },
