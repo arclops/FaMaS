@@ -5,7 +5,7 @@ const cors = require('cors');
 const { DateTime } = require('luxon');
 const { serverlogger } = require('../utils/serverlogger.js');
 const pool = require("../db.js");
-const gracefulShutdown = require('./utils/shutdown');
+const gracefulShutdown = require('../utils/shutdown');
 // Function to start the Express server
 const startServer = () => {
     // Middlewares
