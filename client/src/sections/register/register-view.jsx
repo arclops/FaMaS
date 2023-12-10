@@ -15,12 +15,12 @@ import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { useRouter } from 'src/routes/hooks';
+import { useRouter } from '@/routes/hooks';
 
-import { bgGradient } from 'src/theme/css';
+import { bgGradient } from '@/theme/css';
 
-import Logo from 'src/components/logo';
-import Iconify from 'src/components/iconify';
+import Logo from '@/components/logo';
+import Iconify from '@/components/iconify';
 
 import { RegError } from './reg-error';
 import { Futuresupport } from '../login';

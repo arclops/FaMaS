@@ -1,9 +1,8 @@
 /* eslint-disable import/no-unresolved */
 
-import { useScrollToTop } from 'src/hooks/use-scroll-to-top';
-
-import 'src/global.css';
-import ThemeProvider from 'src/theme';
+import '@/global.css';
+import ThemeProvider from '@/theme';
+import { useScrollToTop } from '@/hooks/use-scroll-to-top';
 
 import Router from "./routes/sections";
 

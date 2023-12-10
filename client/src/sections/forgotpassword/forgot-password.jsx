@@ -16,7 +16,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import Iconify from 'src/components/iconify';
+import Iconify from '@/components/iconify';
 
 import './fp.css';
 import { Logerror } from '../login/error';

@@ -1,24 +1,22 @@
 /* eslint-disable import/no-unresolved */
 import { lazy, Suspense, useState, useEffect } from 'react';
 import { Outlet, Navigate, useRoutes, useNavigate } from 'react-router-dom';
+import FarmerDBLayout from '@/layouts/farmerdb/index.jsx';
+import { Landing } from '@/sections/landingpage/index.js';
+import DashboardLayout from '@/layouts/dashboard/index.js';
+import { UnauthorizedView } from '@/sections/error/index.js';
 
-import FarmerDBLayout from 'src/layouts/farmerdb';
-import DashboardLayout from 'src/layouts/dashboard';
-
-import { Landing } from 'src/sections/landingpage';
-import { UnauthorizedView } from 'src/sections/error';
-
-export const AdminPage = lazy(() => import('src/pages/app'));
-export const FarmerPage = lazy(() => import('src/pages/farmerdb'));
-export const BlogPage = lazy(() => import('src/pages/blog'));
-export const UserPage = lazy(() => import('src/pages/user'));
-export const LoginPage = lazy(() => import('src/pages/login'));
-export const RegisterPage = lazy(() => import('src/pages/register'));
-export const ProductsPage = lazy(() => import('src/pages/products'));
-export const Page404 = lazy(() => import('src/pages/page-not-found'));
-export const MarketPage = lazy(() => import('src/pages/market'));
-export const { Unauthorised } = lazy(() => import('src/sections/error/unauthorised'));
-export const { FarmersDB } = lazy(() => import('src/sections/farmersdb/view'));
+export const AdminPage = lazy(() => import('@/pages/app.jsx'));
+export const FarmerPage = lazy(() => import('@/pages/farmerdb.jsx'));
+export const BlogPage = lazy(() => import('@/pages/blog.jsx'));
+export const UserPage = lazy(() => import('@/pages/user.jsx'));
+export const LoginPage = lazy(() => import('@/pages/login.jsx'));
+export const RegisterPage = lazy(() => import('@/pages/register.jsx'));
+export const ProductsPage = lazy(() => import('@/pages/products.jsx'));
+export const Page404 = lazy(() => import('@/pages/page-not-found.jsx'));
+export const MarketPage = lazy(() => import('@/pages/market.jsx'));
+export const { Unauthorised } = lazy(() => import('@/sections/error/unauthorised.jsx'));
+export const { FarmersDB } = lazy(() => import('@/sections/farmersdb/view.jsx'));
 
 // ----------------------------------------------------------------------
 
@@ -90,7 +88,7 @@ export default function Router() {
     {
       element: (
         <DashboardLayout>
-          <Suspense fallback={<div>Loadingsrc.</div>}>
+          <Suspense fallback={<div>Loading@.</div>}>
             <Outlet />
           </Suspense>
         </DashboardLayout>
@@ -103,7 +101,7 @@ export default function Router() {
     {
       element: (
         <FarmerDBLayout>
-          <Suspense fallback={<div>Loadingsrc.</div>}>
+          <Suspense fallback={<div>Loading@.</div>}>
             <Outlet />
           </Suspense>
         </FarmerDBLayout>
