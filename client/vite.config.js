@@ -4,9 +4,6 @@ import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
 import react from '@vitejs/plugin-react-swc';
 
-
-// ----------------------------------------------------------------------
-
 export default defineConfig({
   plugins: [
     react(),
@@ -20,11 +17,11 @@ export default defineConfig({
     alias: [
       {
         find: /^~(.+)/,
-        replacement: path.join(process.cwd(), 'node_modules/$1'),
+        replacement: path.resolve(process.cwd(), 'node_modules', '$1'),
       },
       {
         find: /^src(.+)/,
-        replacement: path.join(process.cwd(), 'src/$1'),
+        replacement: path.resolve(process.cwd(), 'src', '$1'),
       },
     ],
   },
