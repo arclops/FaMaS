@@ -12,9 +12,6 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-// import Iconify from '@/components/iconify';
-import Scrollbar from '@/components/scrollbar';
-
 import EmptyDB from '../emptydb';
 import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
@@ -22,6 +19,8 @@ import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import getFarmerDb from '../getfarmers/farmerdbget';
 import UserTableToolbar from '../user-table-toolbar';
+// import Iconify from '../../../components/iconify';
+import Scrollbar from '../../../components/scrollbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
 export default function UserPage() {

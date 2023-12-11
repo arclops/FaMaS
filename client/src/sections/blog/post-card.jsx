@@ -9,11 +9,10 @@ import { alpha } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
-import { fDate } from '@/utils/format-time';
-import { fShortenNumber } from '@/utils/format-number';
-
-import Iconify from '@/components/iconify';
-import SvgColor from '@/components/svg-color';
+import Iconify from '../../components/iconify';
+import { fDate } from '../../utils/format-time';
+import SvgColor from '../../components/svg-color';
+import { fShortenNumber } from '../../utils/format-number';
 
 // ----------------------------------------------------------------------
 

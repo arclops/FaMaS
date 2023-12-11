@@ -15,18 +15,14 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { useRouter } from '@/routes/hooks';
-
-import { bgGradient } from '@/theme/css';
-
-import Logo from '@/components/logo';
-import Iconify from '@/components/iconify';
-
-import { Logerror } from '@/sections/login/error';
-import { Logsuccess } from '@/sections/login/success';
-import { ForgotPass } from '@/sections/forgotpassword';
-
+import { Logerror } from './error';
+import { Logsuccess } from './success';
+import Logo from '../../components/logo';
 import { AccountBanned } from './banned';
+import { bgGradient } from '../../theme/css';
+import { useRouter } from '../../routes/hooks';
+import Iconify from '../../components/iconify';
+import { ForgotPass } from '../forgotpassword';
 import { Futuresupport } from './futuresupport';
 // ----------------------------------------------------------------------
 

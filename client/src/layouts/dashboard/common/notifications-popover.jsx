@@ -18,10 +18,9 @@ import ListSubheader from '@mui/material/ListSubheader';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemButton from '@mui/material/ListItemButton';
 
-import { fToNow } from '@/utils/format-time';
-
-import Iconify from '@/components/iconify';
-import Scrollbar from '@/components/scrollbar';
+import Iconify from '../../../components/iconify';
+import { fToNow } from '../../../utils/format-time';
+import Scrollbar from '../../../components/scrollbar';
 
 // ----------------------------------------------------------------------
 

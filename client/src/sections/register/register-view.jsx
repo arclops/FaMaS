@@ -15,17 +15,14 @@ import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { useRouter } from '@/routes/hooks';
-
-import { bgGradient } from '@/theme/css';
-
-import Logo from '@/components/logo';
-import Iconify from '@/components/iconify';
-
 import { RegError } from './reg-error';
+import Logo from '../../components/logo';
 import { Futuresupport } from '../login';
 import { RegSuccess } from './reg-success';
+import { bgGradient } from '../../theme/css';
 import { Regexistserror } from './reg-exists';
+import { useRouter } from '../../routes/hooks';
+import Iconify from '../../components/iconify';
 
 export default function RegistrationView() {
   const router = useRouter();

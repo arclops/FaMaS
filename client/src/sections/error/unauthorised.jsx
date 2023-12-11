@@ -6,9 +6,8 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-import { RouterLink } from '@/routes/components';
-
-import Logo from '@/components/logo';
+import Logo from '../../components/logo';
+import { RouterLink } from '../../routes/components';
 
 // ----------------------------------------------------------------------
 

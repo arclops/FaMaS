@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import SvgColor from '@/components/svg-color';
+import SvgColor from '../../components/svg-color';
 
 // ----------------------------------------------------------------------
 

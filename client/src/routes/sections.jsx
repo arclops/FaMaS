@@ -1,22 +1,23 @@
 /* eslint-disable import/no-unresolved */
 import { lazy, Suspense, useState, useEffect } from 'react';
 import { Outlet, Navigate, useRoutes, useNavigate } from 'react-router-dom';
-import FarmerDBLayout from '@/layouts/farmerdb/index.jsx';
-import { Landing } from '@/sections/landingpage/index.js';
-import DashboardLayout from '@/layouts/dashboard/index.jsx';
-import { UnauthorizedView } from '@/sections/error/index.jsx';
 
-export const AdminPage = lazy(() => import('@/pages/app.jsx'));
-export const FarmerPage = lazy(() => import('@/pages/farmerdb.jsx'));
-export const BlogPage = lazy(() => import('@/pages/blog.jsx'));
-export const UserPage = lazy(() => import('@/pages/user.jsx'));
-export const LoginPage = lazy(() => import('@/pages/login.jsx'));
-export const RegisterPage = lazy(() => import('@/pages/register.jsx'));
-export const ProductsPage = lazy(() => import('@/pages/products.jsx'));
-export const Page404 = lazy(() => import('@/pages/page-not-found.jsx'));
-export const MarketPage = lazy(() => import('@/pages/market.jsx'));
-export const { Unauthorised } = lazy(() => import('@/sections/error/unauthorised.jsx'));
-export const { FarmersDB } = lazy(() => import('@/sections/farmersdb/view.jsx'));
+import FarmerDBLayout from '../layouts/farmerdb';
+import { Landing } from '../sections/landingpage';
+import DashboardLayout from '../layouts/dashboard';
+import { UnauthorizedView } from '../sections/error';
+
+export const AdminPage = lazy(() => import('../pages/app'));
+export const FarmerPage = lazy(() => import('../pages/farmerdb'));
+export const BlogPage = lazy(() => import('../pages/blog'));
+export const UserPage = lazy(() => import('../sections/login'));
+export const LoginPage = lazy(() => import('../pages/login'));
+export const RegisterPage = lazy(() => import('../pages/register'));
+export const ProductsPage = lazy(() => import('../pages/products'));
+export const Page404 = lazy(() => import('../pages/page-not-found'));
+export const MarketPage = lazy(() => import('../pages/market'));
+export const { Unauthorised } = lazy(() => import('../sections/error/unauthorised'));
+export const { FarmersDB } = lazy(() => import('../sections/farmersdb/view'));
 
 // ----------------------------------------------------------------------
 

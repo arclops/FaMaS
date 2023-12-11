@@ -16,11 +16,10 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import Iconify from '@/components/iconify';
-
 import './fp.css';
 import { Logerror } from '../login/error';
 import { Resetsuccess } from "./resetsuccess";
+import Iconify from '../../components/iconify';
 
 const useStyles = makeStyles((theme) => ({
   modal: {

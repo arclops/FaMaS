@@ -12,8 +12,8 @@ import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import Label from '@/components/label';
-import Iconify from '@/components/iconify';
+import Label from '../../components/label';
+import Iconify from '../../components/iconify';
 
 // ----------------------------------------------------------------------
 

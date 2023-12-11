@@ -13,9 +13,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-import Iconify from '@/components/iconify';
-
 import './lp.css';
+import Iconify from '../../components/iconify';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
