@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { Helmet } from 'react-helmet-async';
 
-import { RegisterView } from '@/sections/register';
+import { LoginView } from 'src/sections/login';
 
 // ----------------------------------------------------------------------
 
@@ -9,10 +9,10 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> Registration </title>
+        <title> Login | FaMaS</title>
       </Helmet>
 
-      <RegisterView />
+      <LoginView />
     </>
   );
 }
