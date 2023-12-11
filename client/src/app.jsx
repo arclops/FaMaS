@@ -2,8 +2,8 @@
 
 import './global.css';
 import Router from "./routes/sections";
-import ThemeProvider from './theme/index.j';
-import { useScrollToTop } from './hooks/use-scroll-to-top.j';
+import ThemeProvider from './theme/index';
+import { useScrollToTop } from './hooks/use-scroll-to-top';
 
 // ----------------------------------------------------------------------
 
