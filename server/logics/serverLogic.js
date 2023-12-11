@@ -10,9 +10,16 @@ const gracefulShutdown = require('../utils/shutdown.js');
 const startServer = () => {
     // Middlewares
   app.use(cors({
-    origin: process.env.ALLOWED_ORIGINS.split(','),
-    credentials: true,
+    origin: process.env.ALLOWED_ORIGINS.split(',')
   }));
+
+  app.use((_, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+  });
+
   app.use(express.json());
   app.use(helmet());
     // Routes
