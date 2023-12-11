@@ -3,8 +3,8 @@ import { lazy, Suspense, useState, useEffect } from 'react';
 import { Outlet, Navigate, useRoutes, useNavigate } from 'react-router-dom';
 import FarmerDBLayout from '@/layouts/farmerdb/index.jsx';
 import { Landing } from '@/sections/landingpage/index.js';
-import DashboardLayout from '@/layouts/dashboard/index.js';
-import { UnauthorizedView } from '@/sections/error/index.js';
+import DashboardLayout from '@/layouts/dashboard/index.jsx';
+import { UnauthorizedView } from '@/sections/error/index.jsx';
 
 export const AdminPage = lazy(() => import('@/pages/app.jsx'));
 export const FarmerPage = lazy(() => import('@/pages/farmerdb.jsx'));
