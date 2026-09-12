@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Confetti from 'react-confetti'; // Import the react-confetti library
+import Confetti from 'react-confetti';
 import Fade from '@mui/material/Fade';
 import Stack from '@mui/material/Stack';
 import Modal from '@mui/material/Modal';
@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
 function Logsuccess({ openS, handleCloseS }) {
   const classes = useStyles();
 
+  useEffect(() => {
+    if (!openS) return undefined;
+    const timer = setTimeout(() => handleCloseS(), 800);
+    return () => clearTimeout(timer);
+  }, [openS, handleCloseS]);
+
   return (
     <Backdrop
       sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -44,12 +50,11 @@ function Logsuccess({ openS, handleCloseS }) {
       >
         <Fade in={openS}>
           <Paper className={classes.paper}>
-            {/* Add the Confetti component to create the confetti effect */}
             <Confetti
               width={window.innerWidth}
               height={window.innerHeight}
               recycle={false}
-              numberOfPieces={500} // Adjust the number of confetti pieces
+              numberOfPieces={500}
             />
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Stack direction="row" spacing={2}>
