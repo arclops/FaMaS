@@ -1,128 +1,223 @@
-import React from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
+import { useState } from 'react';
 
-import EmailIcon from '@mui/icons-material/Email';
-import PhoneIcon from '@mui/icons-material/Phone';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { List, ListItem, Typography, ListItemIcon, ListItemText } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import Divider from '@mui/material/Divider';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 
-import { Consuccess } from '../modals/success';
+import { submitContactForm } from '../api';
 
-function AppContact() {
-  const [contact, setContact] = React.useState(false);
-  const submit = async (event) => {
+// ----------------------------------------------------------------------
+
+const contactDetails = [
+  { label: 'Location', value: 'NMAM Institute of Technology, Nitte, Karnataka' },
+  { label: 'Project', value: 'github.com — see the repository README for links' },
+];
+
+const emptyForm = {
+  fname: '',
+  lname: '',
+  email: '',
+  phone: '',
+  message: '',
+};
+
+export default function AppContact() {
+  const [form, setForm] = useState(emptyForm);
+  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setForm((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = {
-      fname: event.target.firstName.value,
-      lname: event.target.lastName.value,
-      email: event.target.email.value,
-      phone: event.target.phone.value,
-      message: event.target.message.value
-    };
-    event.target.reset();
-    setContact(true);
+
+    setSending(true);
+    setError('');
+
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/api/homepage/contact`, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-    } catch (error) {
-      console.error('Submission error:', error);
+      await submitContactForm(form);
+      setForm(emptyForm);
+      setSent(true);
+    } catch (submissionError) {
+      setError(
+        submissionError?.message || 'The message could not be sent. Please try again in a moment.'
+      );
+    } finally {
+      setSending(false);
     }
-  }
+  };
+
   return (
-    <section id="contact" className="block contact-block">
-      <Container fluid>
-        <div className="title-holder">
-          <Typography variant="h3">Contact us</Typography>
-          <Typography variant="subtitle2">Get connected with us</Typography>
-        </div>
-        <Row>
-          <Col sm={6}>
-            <Form className='contact-form' onSubmit={(e)=>submit(e)}>
-              <Row>
-                <Col sm={6}>
-                  <Form.Control type="text" name="firstName" placeholder="First Name" required />
-                </Col>
-                <Col sm={6}>
-                  <Form.Control type="text" name="lastName" placeholder="Last Name" required />
-                </Col>
-              </Row>
-              <Row>
-                <Col sm={12}>
-                  <Form.Control type="email" name="email" placeholder="Email address" required />
-                </Col>
-              </Row>
-              <Row>
-                <Col sm={12}>
-                  <Form.Control type="tel" name="phone" placeholder="Contact Number" required />
-                </Col>
-              </Row>
-              <Row>
-                <Col sm={12}>
-                  <Form.Control as="textarea" name="message" placeholder="Leave a message for us" required />
-                </Col>
-              </Row>
-              <Row>
-                <Col sm={12} className='btn-holder'>
-                  <Button type="submit" >Submit</Button>
-                </Col>
-              </Row>
-            </Form>
-          </Col>
-          <Col sm={6} className='google-map'>
-            <iframe
-              title="map"
-              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3884.667837887532!2d74.93091777593315!3d13.183330987151848!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTPCsDEwJzYwLjAiTiA3NMKwNTYnMDAuNiJF!5e0!3m2!1sen!2sus!4v1699952342057!5m2!1sen!2sus"
-              width="100%"
-              height="450"
-              style={{ border: '1px solid #ddd', borderRadius: '8px' }}
-              allowFullScreen=""
-              loading="lazy"
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={12} className='contact-info'>
-            <List>
-              <ListItem>
-                <ListItemIcon>
-                  <EmailIcon />
-                </ListItemIcon>
-                <ListItemText>
-                  <Typography variant="body1">karthik@gmail.com</Typography>
-                </ListItemText>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <PhoneIcon />
-                </ListItemIcon>
-                <ListItemText>
-                  <Typography variant="body1">9876543210</Typography>
-                </ListItemText>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <LocationOnIcon />
-                </ListItemIcon>
-                <ListItemText>
-                  <Typography variant="body1">Nmamit, Nitte</Typography>
-                </ListItemText>
-              </ListItem>
-            </List>
-          </Col>
-        </Row>
+    <Box component="section" id="contact" sx={{ py: { xs: 6, md: 10 } }}>
+      <Container>
+        <Grid container spacing={{ xs: 5, md: 8 }}>
+          <Grid item xs={12} md={7}>
+            <Typography variant="h2" component="h2" sx={{ mb: 1.5 }}>
+              Tell us about your association
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+              Questions about running FaMaS for a group of farmers, or about
+              hosting it yourself? Send a note and we will get back to you.
+            </Typography>
+
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ maxWidth: 640 }}>
+              <Grid container spacing={2.5}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    required
+                    id="contact-first-name"
+                    name="fname"
+                    label="First name"
+                    autoComplete="given-name"
+                    value={form.fname}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    required
+                    id="contact-last-name"
+                    name="lname"
+                    label="Last name"
+                    autoComplete="family-name"
+                    value={form.lname}
+                    onChange={handleChange}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    required
+                    type="email"
+                    id="contact-email"
+                    name="email"
+                    label="Email address"
+                    autoComplete="email"
+                    value={form.email}
+                    onChange={handleChange}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    required
+                    type="tel"
+                    id="contact-phone"
+                    name="phone"
+                    label="Phone number"
+                    autoComplete="tel"
+                    value={form.phone}
+                    onChange={handleChange}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    required
+                    multiline
+                    minRows={4}
+                    id="contact-message"
+                    name="message"
+                    label="Message"
+                    value={form.message}
+                    onChange={handleChange}
+                  />
+                </Grid>
+
+                {error && (
+                  <Grid item xs={12}>
+                    <Box role="alert" sx={{ color: 'error.main', typography: 'body2' }}>
+                      {error}
+                    </Box>
+                  </Grid>
+                )}
+
+                <Grid item xs={12}>
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center">
+                    <Button type="submit" size="large" variant="contained" disabled={sending}>
+                      {sending ? 'Sending…' : 'Send message'}
+                    </Button>
+                    <Typography variant="caption" color="text.secondary">
+                      Messages are stored in the project&apos;s own PostgreSQL database.
+                    </Typography>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12} md={5}>
+            <Stack spacing={3}>
+              <Typography variant="h3" component="h3">
+                Where this comes from
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                FaMaS started as a hackathon build for farmer associations and is
+                still a student project, so the demo deployments are shared and
+                occasionally restarted.
+              </Typography>
+
+              <Divider />
+
+              {contactDetails.map((detail) => (
+                <Stack key={detail.label} spacing={0.5}>
+                  <Typography variant="subtitle2">{detail.label}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {detail.value}
+                  </Typography>
+                </Stack>
+              ))}
+
+              <Divider />
+
+              <Stack spacing={0.5}>
+                <Typography variant="subtitle2">Routes worth opening</Typography>
+                <Link href="#try-it" underline="hover" variant="body2">
+                  Try the demo
+                </Link>
+                <Link href="#features" underline="hover" variant="body2">
+                  What the app does
+                </Link>
+                <Link href="#overview" underline="hover" variant="body2">
+                  Back to the top of the page
+                </Link>
+              </Stack>
+            </Stack>
+          </Grid>
+        </Grid>
       </Container>
-      <Consuccess openS={contact} handleCloseS={() => setContact(false)} />
-    </section>
+
+      <Dialog open={sent} onClose={() => setSent(false)} aria-labelledby="contact-success-title">
+        <DialogTitle id="contact-success-title">Message sent</DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" color="text.secondary">
+            Thanks for writing in. We will get back to you at the email address
+            you provided.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSent(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 }
-
-export default AppContact;

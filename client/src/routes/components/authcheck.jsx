@@ -1,6 +1,6 @@
 // export default async function AuthCheck() {
 //         try{
-//           const response = await fetch(`http://localhost:5000/api/auth/getrole`, {
+//           const response = await apiFetch(`/api/auth/getrole`, {
 //           method: 'GET',
 //           credentials: 'include',
 //           headers: {

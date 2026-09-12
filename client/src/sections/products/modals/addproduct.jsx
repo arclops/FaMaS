@@ -24,6 +24,7 @@ import {
 } from '@mui/material';
 
 import { AddProductSuccess } from './success';
+import { apiFetch } from '../../../api/client';
 
 // cid.config({
 //   cloud_name: `${import.meta.env.VITE_CNARY_CLOUD_NAME}`, // Replace with your Cloudinary cloud name
@@ -61,8 +62,8 @@ const AddProductModal = ({ openAP, handleCloseAP }) => {
       const result = await response.json();
       console.log(result);  
   
-      const responsepg = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/admin/products/add`,
+      const responsepg = await apiFetch(
+        `/api/admin/products/add`,
         {
           method: 'POST',
           headers: {

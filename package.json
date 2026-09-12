@@ -1,11 +1,20 @@
 {
-  "dependencies": {
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.16",
-    "@mui/styled-engine": "^5.14.16",
-    "bcrypt": "^5.1.1",
-    "email-validator": "^2.0.4",
-    "luxon": "^3.4.3",
-    "npm": "^10.2.3"
+  "name": "famas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FaMaS (Farmers Management System) — monorepo root for the React client and the Express/PostgreSQL API.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "install:all": "npm install --prefix client && npm install --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "build": "npm run build --prefix client",
+    "start:server": "npm start --prefix server",
+    "lint": "npm run lint --prefix client",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down"
   }
 }

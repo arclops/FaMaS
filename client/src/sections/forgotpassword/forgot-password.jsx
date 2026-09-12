@@ -16,6 +16,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import InputAdornment from '@mui/material/InputAdornment';
 
+import { apiFetch } from '../../api/client';
 import './fp.css';
 import { Logerror } from '../login/error';
 import { Resetsuccess } from "./resetsuccess";
@@ -50,7 +51,7 @@ export default function ForgotPass({ open, handleClose }) {
     const data = emsel? document.getElementsByName("email")[0].value:document.getElementsByName("phone")[0].value;
     try{
       console.log("Initiating server contact")
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/forgot/userexists/${data}`, {
+      const response = await apiFetch(`/api/forgot/userexists/${data}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -82,7 +83,7 @@ export default function ForgotPass({ open, handleClose }) {
         console.log("Initiating server contact")
         const password = pass1;
         const body = {uid, password};
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/forgot/reset`, {
+        const response = await apiFetch(`/api/forgot/reset`, {
           method: 'PUT',
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(body),

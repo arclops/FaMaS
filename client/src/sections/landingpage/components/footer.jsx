@@ -1,62 +1,62 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-import Container from 'react-bootstrap/Container';
-import React, { useState, useEffect } from "react";
+import { Link as RouterLink } from 'react-router-dom';
 
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import { IconButton, Typography } from '@mui/material';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 
-function AppFooter() {
-  const [showTopBtn, setShowTopBtn] = useState(false);
+// ----------------------------------------------------------------------
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 400) {
-        setShowTopBtn(true);
-      } else {
-        setShowTopBtn(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []); // Pass an empty dependency array to run this effect only once
-
-  const goTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-      duration: 100
-    });
-  };
-
+export default function AppFooter() {
   return (
-    <Container fluid >
-      <Typography variant="body2" className="copyright">&copy; 2023 FAMAS. All Right Reserved.</Typography>
-      <Stack direction="row" spacing={2} justifyContent="center" style={{ marginTop: '10px' }}>
-        <IconButton color="black" href="https://www.facebook.com"><FacebookIcon /></IconButton>
-        <IconButton color="black" href="https://www.twitter.com"><TwitterIcon /></IconButton>
-        <IconButton color="black" href="https://www.linkedin.com"><LinkedInIcon /></IconButton>
-      </Stack>
-      {
-        showTopBtn && (
-          <div className="go-top" onClick={goTop} style={{ cursor: 'pointer', backgroundColor: 'black', borderRadius: '50%', position: 'fixed', bottom: '20px', right: '20px', padding: '10px' }}>
-            <IconButton color="primary">
-              <ArrowUpwardIcon />
-            </IconButton>
-          </div>
-        )
-      }
-    </Container>
+    <Box component="footer" sx={{ bgcolor: 'grey.900', color: 'grey.300', py: 5 }}>
+      <Container>
+        <Stack spacing={3}>
+          <Stack
+            direction={{ xs: 'column', md: 'row' }}
+            spacing={3}
+            justifyContent="space-between"
+          >
+            <Box>
+              <Typography variant="h6" component="h2" sx={{ color: 'common.white' }}>
+                FaMaS
+              </Typography>
+              <Typography variant="body2" sx={{ maxWidth: 420, color: 'grey.400' }}>
+                A farmers management system for associations: member records,
+                product listings and a public marketplace.
+              </Typography>
+            </Box>
+
+            <Stack component="nav" aria-label="Footer" spacing={1}>
+              <Link
+                component={RouterLink}
+                to="/marketplace"
+                underline="hover"
+                sx={{ color: 'grey.400' }}
+              >
+                Marketplace
+              </Link>
+              <Link component={RouterLink} to="/login" underline="hover" sx={{ color: 'grey.400' }}>
+                Log in
+              </Link>
+              <Link
+                component={RouterLink}
+                to="/register"
+                underline="hover"
+                sx={{ color: 'grey.400' }}
+              >
+                Register
+              </Link>
+            </Stack>
+          </Stack>
+
+          <Typography variant="caption" sx={{ color: 'grey.500' }}>
+            Built with PostgreSQL, Express, React and Node. Student project, so the
+            demo data is not production data.
+          </Typography>
+        </Stack>
+      </Container>
+    </Box>
   );
 }
-
-export default AppFooter;

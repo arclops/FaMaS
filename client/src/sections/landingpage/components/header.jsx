@@ -1,58 +1,133 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { React } from 'react';
-import { Link } from 'react-scroll';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container';
+import { useState } from 'react';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 
-import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Container from '@mui/material/Container';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
-import { useRouter } from '../../../routes/hooks';
+// ----------------------------------------------------------------------
 
-function AppHeader() {
-  const router = useRouter();
-  const navLinkStyle = {
-    padding: '0.5rem 1rem',
-    margin: '0 0.5rem',
-    textDecoration: 'none',
-    color: 'inherit',
-    '&:hover': {
-      textDecoration: 'none !important',
-    },
-  };
+const sections = [
+  { label: 'Overview', hash: '#overview' },
+  { label: 'Features', hash: '#features' },
+  { label: 'Try it', hash: '#try-it' },
+  { label: 'Contact', hash: '#contact' },
+];
+
+export default function AppHeader() {
+  const { pathname } = useLocation();
+  const [openMenu, setOpenMenu] = useState(false);
+
+  // In-page anchors only resolve on the landing route, so they are rendered as
+  // plain hashes there and as `/#section` links everywhere else.
+  const anchorFor = (hash) => (pathname === '/' ? hash : `/${hash}`);
+
+  const closeMenu = () => setOpenMenu(false);
+
+  const renderSectionLink = (section) => (
+    <Link
+      key={section.hash}
+      href={anchorFor(section.hash)}
+      underline="none"
+      onClick={closeMenu}
+      sx={{
+        px: 1.5,
+        py: 1,
+        borderRadius: 1,
+        color: 'text.primary',
+        typography: 'subtitle2',
+        '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 2 },
+        '&:hover': { color: 'primary.main', bgcolor: 'action.hover' },
+      }}
+    >
+      {section.label}
+    </Link>
+  );
 
   return (
-    <Navbar bg="light" expand="lg" variant="light">
-      <Container>
-        <Navbar.Brand href='#'>
-          <img src='assets/Logo.png' alt="logo" style={{ width: '75px', height: '50px', marginRight: '10px' }} />
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
-            <Typography variant="h6" sx={navLinkStyle}>
-              <Link to="home" smooth duration={10} offset={-75} style={{ cursor: 'pointer' }}>Home</Link>
-            </Typography>
-            <Typography variant="h6" sx={navLinkStyle} >
-              <Link to="marketplace" style={{ cursor: 'pointer' }} onClick={() => router.push('/marketplace')}>Market</Link>
-            </Typography>
-            <Typography variant="h6" sx={navLinkStyle}>
-            <Link to="about" smooth duration={10} offset={-75} style={{ cursor: 'pointer' }}>About</Link>
-            </Typography>
-            <Typography variant="h6" sx={navLinkStyle}>
-            <Link to="services" smooth duration={10} offset={-75} style={{ cursor: 'pointer' }}>Services</Link>
-            </Typography>
-            <Typography variant="h6" sx={navLinkStyle}>
-            <Link to="testimonials" smooth duration={10} offset={-75} style={{ cursor: 'pointer' }}>Testimonials</Link>
-            </Typography>
-            <Typography variant="h6" sx={navLinkStyle}>
-            <Link to="contact" smooth duration={10} offset={-75} style={{ cursor: 'pointer' }}>Contact</Link>
-            </Typography>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <Container>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ py: 2 }}>
+        <Stack direction="row" alignItems="center" spacing={1.5}>
+          <Box
+            component="img"
+            src="/assets/Logo.png"
+            alt="FaMaS logo"
+            sx={{ width: 44, height: 30, objectFit: 'contain' }}
+          />
+          <Box sx={{ typography: 'h6', color: 'text.primary' }}>FaMaS</Box>
+        </Stack>
+
+        <Stack
+          component="nav"
+          aria-label="Main navigation"
+          direction="row"
+          alignItems="center"
+          spacing={1}
+          sx={{ display: { xs: 'none', md: 'flex' } }}
+        >
+          {sections.map(renderSectionLink)}
+
+          <Link
+            component={RouterLink}
+            to="/marketplace"
+            underline="none"
+            sx={{ px: 1.5, py: 1, color: 'text.primary', typography: 'subtitle2' }}
+          >
+            Marketplace
+          </Link>
+
+          <Button component={RouterLink} to="/login" color="inherit" sx={{ ml: 1 }}>
+            Log in
+          </Button>
+          <Button component={RouterLink} to="/register" variant="contained" color="primary">
+            Register
+          </Button>
+        </Stack>
+
+        <IconButton
+          aria-label={openMenu ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={openMenu}
+          aria-controls="landing-mobile-nav"
+          onClick={() => setOpenMenu((open) => !open)}
+          sx={{ display: { xs: 'inline-flex', md: 'none' }, border: 1, borderColor: 'divider' }}
+        >
+          {openMenu ? <CloseIcon /> : <MenuIcon />}
+        </IconButton>
+      </Stack>
+
+      {openMenu && (
+        <Stack
+          component="nav"
+          id="landing-mobile-nav"
+          aria-label="Main navigation"
+          spacing={1}
+          sx={{ pb: 2, display: { md: 'none' } }}
+        >
+          {sections.map(renderSectionLink)}
+
+          <Link
+            component={RouterLink}
+            to="/marketplace"
+            underline="none"
+            onClick={closeMenu}
+            sx={{ px: 1.5, py: 1, color: 'text.primary', typography: 'subtitle2' }}
+          >
+            Marketplace
+          </Link>
+
+          <Button component={RouterLink} to="/login" color="inherit" variant="outlined" onClick={closeMenu}>
+            Log in
+          </Button>
+          <Button component={RouterLink} to="/register" variant="contained" onClick={closeMenu}>
+            Register
+          </Button>
+        </Stack>
+      )}
+    </Container>
   );
 }
-
-export default AppHeader;

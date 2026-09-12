@@ -1,6 +1,8 @@
+import { apiFetch } from '../../../api/client';
+
 export default async function getProducts () {
     try{
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/market/products`, {
+        const response = await apiFetch(`/api/market/products`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",

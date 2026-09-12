@@ -27,6 +27,14 @@ export default defineConfig({
     },
   server: {
     port: 3030,
+    proxy: {
+      // In the compose stack the API runs as the `server` service; override
+      // with VITE_API_PROXY_TARGET when running the client in Docker alone.
+      '/api': {
+        target: process.env.VITE_API_PROXY_TARGET || 'http://localhost:5000',
+        changeOrigin: true,
+      },
+    },
   },
   preview: {
     port: 3030,

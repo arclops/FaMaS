@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import Label from '../../components/label';
+import { apiFetch } from '../../api/client';
 import Iconify from '../../components/iconify';
 
 // ----------------------------------------------------------------------
@@ -32,7 +33,7 @@ export default function UserTableRow({
   const [open, setOpen] = useState(null);
 
   const handleBan = async () => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/farmers/ban/${fid}`, {
+    const response = await apiFetch(`/api/admin/farmers/ban/${fid}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +46,7 @@ export default function UserTableRow({
   };
 
   const handleUnban = async () => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/farmers/unban/${fid}`, {
+    const response = await apiFetch(`/api/admin/farmers/unban/${fid}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

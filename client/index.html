@@ -19,16 +19,24 @@
       href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Bootstrap CDN removed: the only consumer was the old template landing page.
+         The remaining in-app Bootstrap import in src/sections/user/view/user-view.jsx
+         is bundled locally, so nothing depends on this CDN. -->
 
 
-    <title>Minimal UI Kit</title>
+    <title>FaMaS — Farmers Management System</title>
     <meta
       name="description"
-      content="The starting point for your next project with Minimal UI Kit, built on the newest version of Material-UI ©, ready to be customized to your style"
+      content="FaMaS helps farmer associations manage their member database and sell produce directly — farmer records, product listings and a public marketplace in one place."
     />
-    <meta name="keywords" content="react,material,kit,application,dashboard,admin,template" />
-    <meta name="author" content="Minimal UI Kit" />
+    <meta name="keywords" content="farmers,farm produce,agriculture,farmer association,marketplace,management system" />
+    <meta name="author" content="Nachiketha K R" />
+    <meta property="og:title" content="FaMaS — Farmers Management System" />
+    <meta
+      property="og:description"
+      content="Farmer records, product listings and a public marketplace for farmer associations."
+    />
+    <meta property="og:type" content="website" />
   </head>
 
   <body>

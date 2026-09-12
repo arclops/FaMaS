@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
+import { apiFetch } from '../../api/client';
 import { RegError } from './reg-error';
 import Logo from '../../components/logo';
 import { Futuresupport } from '../login';
@@ -129,7 +130,7 @@ export default function RegistrationView() {
       const registrationData = { email, password, phone, fname, lname, role};
       console.log(registrationData);
       try{
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+        const response = await apiFetch(`/api/auth/register`, {
           method: 'POST',
           headers: {
             "Content-Type": "application/json",

@@ -1,7 +1,9 @@
+import { apiFetch } from '../../../api/client';
+
 export default async function getProducts () {
     try{
         const uid = localStorage.getItem("uid");
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/products/${uid}`, {
+        const response = await apiFetch(`/api/admin/products/${uid}`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",

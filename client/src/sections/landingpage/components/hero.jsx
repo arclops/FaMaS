@@ -1,92 +1,72 @@
-import Carousel from "nuka-carousel"; 
-import { easeCubicInOut } from "d3-ease";
+import { Link as RouterLink } from 'react-router-dom';
 
-import LoadingButton from '@mui/lab/LoadingButton';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 
-import Iconify from "../../../components/iconify";
-import { useRouter } from '../../../routes/hooks';
+// ----------------------------------------------------------------------
 
-const heroData = [
-  {
-    id: 1,
-    image: "/assets/images/images/img-hero1.webp",
-    title: 'Empowering Farmers, Harvesting Success',
-    description: '"Empowering Farmers, Harvesting Success" A powerful message of support and collaboration within the agricultural community. It signifies the mission of providing farmers with the tools, knowledge, and resources they need to thrive.',
-  },
-  {
-    id: 2,
-    image: '/assets/images/images/img-hero2.webp',
-    title: 'Sow, Grow, and Prosper with Us',
-    description: 'Sow, Grow, and Prosper with Us" encapsulates the entire agricultural cycle, from the inception of a farming project to its fruitful culmination, and it invites individuals or businesses to be part of this journey toward prosperity and success. Its a tagline that conveys commitment, growth, and shared achievement.',
-  },
-  {
-    id: 3,
-    image: '/assets/images/images/img-hero3.jpg',
-    title: 'Elevating Agriculture to New Heights',
-    description: 'A Commitment to advancing and modernizing the agricultural industry. It signifies a drive to push the boundaries of traditional farming practices and embrace innovation, technology, and sustainable methods. "Elevating" suggests an upward trajectory, emphasizing progress and growth within the field.',
-  }
-]
-
-function AppHero() {
-  const router = useRouter();
-  const handleClick = () => {
-    router.push('/login');
-  }
-  
-
+export default function AppHero() {
   return (
-    <section id="home" className="hero-block" height="80%" style={{ marginTop: '80px' }}>
-      <Carousel dragging autoplay autoplayInterval={5000} wrapAround pauseOnHover easing={easeCubicInOut} edgeEasing={easeCubicInOut} 
-       renderCenterLeftControls={({ previousSlide }) => (
-        <Iconify
-          icon='eva:arrow-ios-back-fill'
-          onClick={previousSlide}
-          style={{ height:'10%', width:'8%' , position: 'absolute', top: '50%', left: '0', transform: 'translateY(-50%)', zIndex: 1, color:'white', cursor:'pointer' }}
-        />
-      )}
-      renderCenterRightControls={({ nextSlide }) => (
-        <Iconify
-          icon='eva:arrow-ios-forward-fill'
-          onClick={nextSlide}
-          style={{ height:'10%', width:'8%' , position: 'absolute', top: '50%', right: '0', transform: 'translateY(-50%)', zIndex: 1, color:'white', cursor:'pointer' }}
-        />
-      )}
-      >
-        {heroData.map((hero) => (
-          <div key={hero.id} style={{ position: 'relative', height: '92.5vh' }}>
-            <img
-              src={hero.image}
-              alt={`slide ${hero.id}`}
-              style={{ objectFit: 'cover', width: '100%', height: '100%', filter: 'brightness(50%)' }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                textAlign: 'center',
-                color: 'white',
-              }}
-            >
-              <h2>{hero.title}</h2>
-              <p>{hero.description}</p>
-              <LoadingButton
-                size="large"
-                type="submit"
-                variant="outlined"
-                color="inherit"
-                onClick={handleClick}
-                style={{ width: '30%', padding: '20px' }}
+    <Box component="section" id="overview" sx={{ py: { xs: 6, md: 10 } }}>
+      <Container>
+        <Grid container spacing={{ xs: 5, md: 8 }} alignItems="center">
+          <Grid item xs={12} md={6}>
+            <Stack spacing={3} alignItems="flex-start">
+              <Box
+                component="p"
+                sx={{
+                  m: 0,
+                  px: 1.5,
+                  py: 0.5,
+                  borderRadius: 1,
+                  typography: 'subtitle2',
+                  color: 'success.dark',
+                  bgcolor: 'success.lighter',
+                }}
               >
-                Get Started
-              </LoadingButton>
-            </div>
-          </div>
-        ))}
-      </Carousel>
-    </section>
+                Built at a hackathon for farmer associations
+              </Box>
+
+              <Box component="h1" sx={{ m: 0, typography: { xs: 'h3', md: 'h2' } }}>
+                Farmer records and farm produce, in one place.
+              </Box>
+
+              <Box component="p" sx={{ m: 0, typography: 'body1', color: 'text.secondary' }}>
+                FaMaS is a web app for farmer associations. Admins keep the member
+                database tidy, farmers publish what they are harvesting, and the
+                public marketplace is where the produce gets found.
+              </Box>
+
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ width: { xs: '100%', sm: 'auto' } }}>
+                <Button component={RouterLink} to="/marketplace" size="large" variant="contained">
+                  Browse the marketplace
+                </Button>
+                <Button component={RouterLink} to="/login" size="large" variant="outlined">
+                  Log in to your account
+                </Button>
+              </Stack>
+            </Stack>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Box
+              component="img"
+              src="/assets/images/covers/cover_3.jpg"
+              alt="A farmer crouching in a field of tall green crops"
+              sx={{
+                width: '100%',
+                height: { xs: 260, md: 400 },
+                objectFit: 'cover',
+                borderRadius: 2,
+                display: 'block',
+              }}
+            />
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 }
-
-export default AppHero;

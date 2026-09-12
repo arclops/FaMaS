@@ -1,6 +1,7 @@
 {
-  "name": "@minimal/material-kit-react",
-  "author": "minimals.cc",
+  "name": "famas-client",
+  "description": "FaMaS — Farmers Management System (React + Vite client)",
+  "author": "Nachiketha K R",
   "licence": "MIT",
   "version": "1.8.0",
   "private": false,

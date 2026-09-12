@@ -15,6 +15,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
+import { apiFetch } from '../../api/client';
 import { Logerror } from './error';
 import { Logsuccess } from './success';
 import Logo from '../../components/logo';
@@ -45,7 +46,7 @@ export default function LoginView() {
     const phone = emsel? null:document.getElementsByName("phone")[0].value;
     const body = { email,password,phone };
     try{
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+    const response = await apiFetch(`/api/auth/login`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",

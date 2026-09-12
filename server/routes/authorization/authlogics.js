@@ -7,6 +7,7 @@ const authorization = require("../../middleware/authorization.js");
 const saltRounds = 10;
 const cookieParser = require('cookie-parser');
 const { serverlogger } = require('../../utils/serverlogger.js');
+const { resolveAllowedOrigin } = require('../../utils/allowedOrigins.js');
 
 router.use(cookieParser());
 const registerUser = async (req, res) => {
@@ -118,8 +119,13 @@ router.get("/getrole", authorization, async (req, res) => {
 
         const user = req.user;
         const userRole = req.role;
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3030');
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        // Echo the caller's origin only when ALLOWED_ORIGINS permits it; the
+        // cross-origin cookie sent by this route needs the explicit origin.
+        const allowedOrigin = resolveAllowedOrigin(req.headers.origin);
+        if (allowedOrigin) {
+            res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+            res.setHeader('Access-Control-Allow-Credentials', 'true');
+        }
         res.status(200).json({ uid: user, role: userRole });
     } catch (error) {
         console.error(error.message);

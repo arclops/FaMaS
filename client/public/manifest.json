@@ -1,6 +1,7 @@
 {
-  "short_name": "Minimal App",
-  "name": "React Material Minimal UI Kit",
+  "short_name": "FaMaS",
+  "name": "FaMaS — Farmers Management System",
+  "description": "Farmer records, product listings and a public marketplace for farmer associations.",
   "icons": [
     {
       "src": "favicon/android-chrome-192x192.png",
@@ -15,6 +16,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#1B806A",
   "background_color": "#ffffff"
 }
