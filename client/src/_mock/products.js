@@ -45,9 +45,15 @@ const PRODUCT_COLOR = [
 export const products = [...Array(24)].map((_, index) => {
   const setIndex = index + 1;
 
+  // This module is the fallback data behind the marketplace grid. It used to
+  // point at /assets/images/products/product_N.jpg; those 24 stock JPEGs were
+  // unreferenced template assets (68 MB) and have been removed, so cycle the
+  // existing produce covers instead.
+  const coverIndex = (index % 24) + 1;
+
   return {
     id: faker.string.uuid(),
-    cover: `/assets/images/products/product_${setIndex}.jpg`,
+    cover: `/assets/images/covers/cover_${coverIndex}.jpg`,
     name: PRODUCT_NAME[index],
     price: faker.number.int({ min: 4, max: 99, precision: 0.01 }),
     priceSale: setIndex % 3 ? null : faker.number.int({ min: 19, max: 29, precision: 0.01 }),

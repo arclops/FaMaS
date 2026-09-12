@@ -1,3 +1,4 @@
-Dockerfile
+﻿# .dockerignore already keeps these out of the image; they must stay in git.
+!Dockerfile
 node_modules
 .env
