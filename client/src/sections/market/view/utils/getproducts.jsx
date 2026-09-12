@@ -1,4 +1,4 @@
-import { apiFetch } from '../../../api/client';
+import { apiFetch } from '../../../../api/client';
 
 export default async function getProducts () {
     try{

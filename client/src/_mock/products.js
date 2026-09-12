@@ -48,8 +48,8 @@ export const products = [...Array(24)].map((_, index) => {
   // This module is the fallback data behind the marketplace grid. It used to
   // point at /assets/images/products/product_N.jpg; those 24 stock JPEGs were
   // unreferenced template assets (68 MB) and have been removed, so cycle the
-  // existing produce covers instead.
-  const coverIndex = (index % 24) + 1;
+  // existing produce covers instead. There are 23 of them.
+  const coverIndex = (index % 23) + 1;
 
   return {
     id: faker.string.uuid(),
