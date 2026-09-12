@@ -1,30 +1,18 @@
 // ----------------------------------------------------------------------
-// FaMaS — seeded demo data (client/src/api/mock/seed.js)
-//
-// !!! DEMO DATA — NOT REAL PEOPLE !!!
-// Every farmer below is a fictional record invented for the deployed demo of
-// the FaMaS (Farmers Management System) marketplace. Names, phone numbers,
-// e-mail addresses and villages are made up; no real person's details are
-// used. Nothing here is written back to a database.
-//
-// Product images use public Unsplash produce photos so marketplace cards
-// render real pictures in the Vercel demo.
-// ----------------------------------------------------------------------
-// DEMO LOGINS
-//   ADMIN   email: admin@famas.demo        phone: 9800000001  password: admin123
-//   FARMER  email: karthik.rao@example.com phone: 9845012345  password: farmer123
-//   BANNED  email: lakshmi.gowda@example.com password: farmer123
+// FaMaS seeded demo data. Fictional people only. Demo logins:
+//   ADMIN   admin@famas.demo / 9800000001 / admin123
+//   FARMER  karthik.rao@example.com / 9845012345 / farmer123
 // ----------------------------------------------------------------------
 
 const PRODUCT_IMAGES = {
   rice: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80',
   basmati: 'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?auto=format&fit=crop&w=800&q=80',
-  ragi: 'https://images.unsplash.com/photo-1574323346683-2adcb69960a3?auto=format&fit=crop&w=800&q=80',
-  toor: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=800&q=80',
-  moong: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80',
-  chana: 'https://images.unsplash.com/photo-1645112411341-6c4fd023882c?auto=format&fit=crop&w=800&q=80',
-  groundnut: 'https://images.unsplash.com/photo-1567890177956-c39c78732658?auto=format&fit=crop&w=800&q=80',
-  tomato: 'https://images.unsplash.com/photo-1546470427-227c7369a62d?auto=format&fit=crop&w=800&q=80',
+  ragi: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
+  toor: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80',
+  moong: 'https://images.unsplash.com/photo-1604329760661-e91dcad3e78c?auto=format&fit=crop&w=800&q=80',
+  chana: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?auto=format&fit=crop&w=800&q=80',
+  groundnut: 'https://images.unsplash.com/photo-1499195333224-3ce974eecb47?auto=format&fit=crop&w=800&q=80',
+  tomato: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80',
   chilli: 'https://images.unsplash.com/photo-1583119022894-919a68a3d0e3?auto=format&fit=crop&w=800&q=80',
   onion: 'https://images.unsplash.com/photo-1518977956812-cd3dbadaaf31?auto=format&fit=crop&w=800&q=80',
   mango: 'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=800&q=80',
@@ -33,59 +21,10 @@ const PRODUCT_IMAGES = {
 };
 
 export const seedAccounts = [
-  {
-    uid: 'ADM001',
-    role: 'admin',
-    fname: 'Aravind',
-    lname: 'Shetty',
-    displayName: 'Administrator',
-    photoURL: '/assets/images/avatars/avatar_25.jpg',
-    email: 'admin@famas.demo',
-    phone: '9800000001',
-    password: 'admin123',
-    address: 'FaMaS Head Office, Nitte, Karkala Taluk, Udupi District, Karnataka',
-    status: 'active',
-    joined: '2023-01-09',
-  },
-  {
-    uid: 'FID1001',
-    role: 'farmer',
-    farmerId: 'FID1001',
-    fname: 'Karthik',
-    lname: 'Rao',
-    displayName: 'Karthik Rao',
-    photoURL: '/assets/images/avatars/avatar_9.jpg',
-    email: 'karthik.rao@example.com',
-    phone: '9845012345',
-    password: 'farmer123',
-    status: 'active',
-  },
-  {
-    uid: 'FID1002',
-    role: 'farmer',
-    farmerId: 'FID1002',
-    fname: 'Lakshmi',
-    lname: 'Gowda',
-    displayName: 'Lakshmi Gowda',
-    photoURL: '/assets/images/avatars/avatar_10.jpg',
-    email: 'lakshmi.gowda@example.com',
-    phone: '9845012346',
-    password: 'farmer123',
-    status: 'banned',
-  },
-  {
-    uid: 'FID1003',
-    role: 'farmer',
-    farmerId: 'FID1003',
-    fname: 'Ramesh',
-    lname: 'Naik',
-    displayName: 'Ramesh Naik',
-    photoURL: '/assets/images/avatars/avatar_11.jpg',
-    email: 'ramesh.naik@example.com',
-    phone: '9845012347',
-    password: 'farmer123',
-    status: 'active',
-  },
+  { uid: 'ADM001', role: 'admin', fname: 'Aravind', lname: 'Shetty', displayName: 'Administrator', photoURL: '/assets/images/avatars/avatar_25.jpg', email: 'admin@famas.demo', phone: '9800000001', password: 'admin123', address: 'FaMaS Head Office, Nitte, Karkala Taluk, Udupi District, Karnataka', status: 'active', joined: '2023-01-09' },
+  { uid: 'FID1001', role: 'farmer', farmerId: 'FID1001', fname: 'Karthik', lname: 'Rao', displayName: 'Karthik Rao', photoURL: '/assets/images/avatars/avatar_9.jpg', email: 'karthik.rao@example.com', phone: '9845012345', password: 'farmer123', status: 'active' },
+  { uid: 'FID1002', role: 'farmer', farmerId: 'FID1002', fname: 'Lakshmi', lname: 'Gowda', displayName: 'Lakshmi Gowda', photoURL: '/assets/images/avatars/avatar_10.jpg', email: 'lakshmi.gowda@example.com', phone: '9845012346', password: 'farmer123', status: 'banned' },
+  { uid: 'FID1003', role: 'farmer', farmerId: 'FID1003', fname: 'Ramesh', lname: 'Naik', displayName: 'Ramesh Naik', photoURL: '/assets/images/avatars/avatar_11.jpg', email: 'ramesh.naik@example.com', phone: '9845012347', password: 'farmer123', status: 'active' },
 ];
 
 export const seedFarmers = [
