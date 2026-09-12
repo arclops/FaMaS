@@ -11,41 +11,29 @@ import ProductSort from '../product-sort';
 import getProducts from '../utils/getproducts';
 import ProductFilters from '../product-filters';
 import Iconify from '../../../components/iconify';
-// import { products } from '../../../_mock/products';
 import AddProductModal from '../modals/addproduct';
-import ProductCartWidget from '../product-cart-widget';
-// ----------------------------------------------------------------------
-
 
 export default function ProductsView() {
   const [openFilter, setOpenFilter] = useState(false);
   const [addProduct, setAddProduct] = useState(false);
   const [products, setProducts] = useState([]);
   const [zeroprod, setZeroprod] = useState(false);
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
 
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
+  const loadProducts = async () => {
+    try {
+      const data = await getProducts();
+      const list = Array.isArray(data) ? data : [];
+      setZeroprod(list.length === 0);
+      setProducts(list);
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+      setProducts([]);
+      setZeroprod(true);
+    }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getProducts();
-        if (data === null || data.length === 0) {
-          setZeroprod(true);
-        } else {
-          setZeroprod(false);  // Set zeroRows to false if there are farmers in the database
-        }
-        setProducts(data);
-      } catch (error) {
-        console.error('Error fetching data:', error.message);
-      }
-    };
-  
-    fetchData();
+    loadProducts();
   }, []);
 
   return (
@@ -68,10 +56,9 @@ export default function ProductsView() {
         <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
           <ProductFilters
             openFilter={openFilter}
-            onOpenFilter={handleOpenFilter}
-            onCloseFilter={handleCloseFilter}
+            onOpenFilter={() => setOpenFilter(true)}
+            onCloseFilter={() => setOpenFilter(false)}
           />
-
           <ProductSort />
         </Stack>
       </Stack>
@@ -84,9 +71,12 @@ export default function ProductsView() {
         ))}
       </Grid>
       }
-      <AddProductModal openAP={addProduct} handleCloseAP={() => setAddProduct(false)} />
-
-      <ProductCartWidget />
+      { zeroprod && (
+        <Typography color="text.secondary" sx={{ py: 6, textAlign: 'center' }}>
+          You have not listed any produce yet. Use Add Product to create the first listing.
+        </Typography>
+      )}
+      <AddProductModal openAP={addProduct} handleCloseAP={() => { setAddProduct(false); loadProducts(); }} />
     </Container>
   );
 }

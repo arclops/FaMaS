@@ -16,19 +16,20 @@ export default async function getProducts () {
         const data = await response.json();
 
         if(data.data) {
-            const products = await Promise.all(data.data.map(async (product, index) => ({
+            const products = data.data.map((product) => ({
             pid: product.pid,
             pname: product.pname,
             fid: product.fid,
             variants: product.variants,
             price: product.price,
             stock: product.stock,
-            image_url: product.image_url,
+            image_url: product.image_url || product.img_url || '/assets/placeholder.svg',
             sale_status: product.sale_status,
-            sale_price: product.sale_price
-            })));
+            sale_price: product.sale_price,
+            farmer_name: product.farmer_name || ''
+            }));
             return products;
-        } 
+        }
         return null;
     } catch (error) {
       console.error("Error fetching data:", error.message);
