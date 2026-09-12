@@ -40,18 +40,18 @@ is not production-ready.
 ```
                          BROWSER
                             │
-              ┌─────────────┴──────────────┐
+              ┌─────────────┐              ┌─────────────┐
               │                            │
               ▼                            ▼
-   ┌────────────────────┐        ┌────────────────────┐
+   ┌───────────────────┐        ┌───────────────────┐
    │  client/           │        │  client/ in        │
    │  React 18 + Vite   │        │  VITE_DEMO_MODE    │
    │  MUI 5, ApexCharts │        │  (no backend)      │
-   └─────────┬──────────┘        └────────────────────┘
+   └─────────┴──────────┘        └───────────────────┘
              │  fetch `${VITE_API_URL}/api/...`
              │  (credentials: include → httpOnly JWT cookie)
              ▼
-   ┌──────────────────────────────────────────────┐
+   ┌───────────────────────────────────────────────┐
    │  server/   Express 4 REST API                │
    │  ├── /api/auth    register, login, getrole   │
    │  ├── /api/admin   farmers, products, account │
@@ -62,14 +62,14 @@ is not production-ready.
    │  └── /api/health    liveness probe           │
    │  middleware: helmet, cors (ALLOWED_ORIGINS), │
    │              JWT verify, bcrypt hashing      │
-   └─────────────────────┬────────────────────────┘
+   └────────────────────┴─────────────────────────┘
                          │  pg connection pool
                          ▼
-              ┌────────────────────────┐
+              ┌─────────────────────────┐
               │  PostgreSQL 16         │
               │  users, farmers,       │
               │  products, serverlogs  │
-              └────────────────────────┘
+              └─────────────────────────┘
 ```
 
 In the Docker stack the browser talks to the Vite dev server, which proxies
@@ -91,7 +91,7 @@ famas/
 │   │   └── _mock/              faker-based fixtures
 │   ├── index.html
 │   ├── vite.config.js          dev port 3030, /api proxy, `src` alias
-│   └── vercel.json             SPA rewrite
+│   └── vercel.json             SPA rewrite (used when Vercel Root Directory is client/)
 ├── server/                     Express + PostgreSQL REST API
 │   ├── server.js               entry point (node server.js)
 │   ├── logics/serverLogic.js   app wiring, CORS, port, graceful shutdown
@@ -103,6 +103,7 @@ famas/
 │   └── .env.example            every server variable, documented
 ├── docker-compose.yml          postgres + API + client dev server
 ├── package.json                root command delegation (no workspaces — see below)
+├── vercel.json                 used when Vercel Root Directory is the repo root
 ├── .gitignore
 └── docs/RELEASE-NOTES.md
 ```
@@ -252,24 +253,26 @@ table to see the association admin views.
 
 ### Client → Vercel
 
-The client deploys on its own; the repository root is **not** a Vercel project.
+`vercel.json` at the repo root installs and builds `client/` so a Vercel project
+pointed at the repository works even if Root Directory is left as `.`.
+`client/vercel.json` is used instead when Root Directory is set to `client`.
 
 | Setting | Value |
 | --- | --- |
-| Root directory | `client` |
-| Build command | `npm run build` |
-| Output directory | `dist` |
-| Install command | `npm install` (default) |
-| Environment variables | `VITE_API_URL` = your deployed API URL (+ `VITE_DEMO_MODE=true` for a backend-free demo deployment) |
+| Root directory | `.` (repo root) **or** `client` |
+| Install command | `npm install --prefix client --legacy-peer-deps` (root) / `npm install --legacy-peer-deps` (client) |
+| Build command | `npm run build --prefix client` (root) / `npx vite build` (client) |
+| Output directory | `client/dist` (root) / `dist` (client) |
+| Environment variables | leave `VITE_API_URL` unset for the seeded demo, or set it to the deployed API URL |
 
-`client/vercel.json` rewrites every path to `/` so the client-side router works
-on deep links.
+`client/.npmrc` sets `legacy-peer-deps=true` because `@mui/styles@5` still
+declares `react@^17` while the app runs React 18. Keep a single lockfile in
+`client/` (`package-lock.json` only) — a sibling `yarn.lock` makes Vercel abort.
 
-**Do not add npm workspaces to the root `package.json`.** Vercel resolves the
-project from `client/` and hoisting dependencies to a root `node_modules` would
-change what its install step produces. Root scripts therefore delegate with
-`npm --prefix client …`, which keeps the Vercel build byte-for-byte identical to
-a build run inside `client/`.
+SPA routes rewrite to `/index.html`.
+
+**Do not add npm workspaces to the root `package.json`.** Root scripts delegate
+with `npm --prefix client …` so the Vercel install stays inside `client/`.
 
 ### API → Render / Railway / Fly
 
