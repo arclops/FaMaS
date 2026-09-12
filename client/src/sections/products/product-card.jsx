@@ -9,9 +9,6 @@ import Typography from '@mui/material/Typography';
 
 import Label from '../../components/label';
 import { fCurrency } from '../../utils/format-number';
-// import { ColorPreview } from '../../components/color-utils';
-
-// ----------------------------------------------------------------------
 
 export default function ShopProductCard({ product }) {
   const renderStatus = (
@@ -34,7 +31,10 @@ export default function ShopProductCard({ product }) {
     <Box
       component="img"
       alt={product.pname}
-      src={product.image_url}
+      src={product.image_url || product.cover || '/assets/placeholder.svg'}
+      onError={(event) => {
+        event.currentTarget.src = '/assets/placeholder.svg';
+      }}
       sx={{
         top: 0,
         width: 1,
@@ -55,10 +55,10 @@ export default function ShopProductCard({ product }) {
           textDecoration: 'line-through',
         }}
       >
-        {product.sale_status && `₹${fCurrency(product.price)}`}
+        {product.sale_status && `\u20B9${fCurrency(product.price)}`}
       </Typography>
       &nbsp;
-      {product.sale_status ? `₹${fCurrency(product.sale_price)}` : `₹${fCurrency(product.price)}`}
+      {product.sale_status ? `\u20B9${fCurrency(product.sale_price)}` : `\u20B9${fCurrency(product.price)}`}
     </Typography>
   );
 
@@ -66,7 +66,6 @@ export default function ShopProductCard({ product }) {
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
         {product.sale_status && renderStatus}
-
         {renderImg}
       </Box>
 
@@ -74,11 +73,10 @@ export default function ShopProductCard({ product }) {
         <Link color="inherit" underline="hover" variant="subtitle2" noWrap>
           {product.pname}
         </Link>
-
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          
-            <Tooltip title="Available Stock" arrow><Typography color="text.secondary">{product.stock}</Typography></Tooltip>
-          
+          <Tooltip title="Available Stock" arrow>
+            <Typography color="text.secondary">{product.stock}</Typography>
+          </Tooltip>
           {renderPrice}
         </Stack>
       </Stack>
